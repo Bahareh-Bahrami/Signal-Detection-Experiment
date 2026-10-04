@@ -7,6 +7,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap"
       rel="stylesheet"
@@ -321,28 +327,136 @@
           padding: 9px 6px;
         }
       }
+
+      /* LANGUAGE-EDIT: START - language chooser + LTR/RTL support */
+      html[lang="en"] body {
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      }
+
+      html[lang="en"] .note {
+        border-right: 1px solid var(--lilac-200);
+        border-left: 4px solid var(--lilac-500);
+      }
+
+      .language-gate {
+        min-height: 560px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .language-gate-inner {
+        width: min(520px, 100%);
+      }
+
+      .language-mark {
+        width: 64px;
+        height: 64px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 18px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--lilac-100), var(--lilac-200));
+        border: 1px solid var(--lilac-300);
+        color: var(--lilac-700);
+        font-size: 1.7rem;
+        font-weight: 700;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .language-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .language-buttons button {
+        margin: 0;
+      }
+
+      .language-switcher {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 18px;
+      }
+
+      .language-switcher button {
+        min-height: 38px;
+        padding: 7px 13px;
+        margin: 0;
+        border-radius: 999px;
+        font-size: 0.88rem;
+        box-shadow: none;
+        background: var(--lilac-50);
+      }
+
+      html[dir="ltr"] .language-switcher {
+        justify-content: flex-start;
+      }
+
+      @media (max-width: 640px) {
+        .language-gate {
+          min-height: 470px;
+        }
+
+        .language-buttons {
+          grid-template-columns: 1fr;
+        }
+
+        .language-switcher button {
+          width: auto;
+        }
+      }
+      /* LANGUAGE-EDIT: END */
     </style>
   </head>
   <body>
     <main>
       <div class="card">
-        <section id="intro">
-          <h1>آزمایش خانگی نظریه تشخیص سیگنال</h1>
-          <p>
+        <!-- LANGUAGE-EDIT: START - first-screen language chooser -->
+        <section id="languageGate" class="language-gate">
+          <div class="language-gate-inner">
+            <div class="language-mark">Aa</div>
+            <h1>
+              زبان را انتخاب کنید <br />
+              Choose your language
+            </h1>
+            <p class="muted">
+              برای شروع آزمایش، زبان رابط کاربری را انتخاب کنید<br />
+              Choose the interface language to begin the experiment
+            </p>
+            <div class="language-buttons">
+              <button id="chooseFa" class="primary">فارسی</button>
+              <button id="chooseEn">English</button>
+            </div>
+          </div>
+        </section>
+
+        <div id="languageSwitcher" class="language-switcher hidden">
+          <button id="switchLanguage" type="button">English</button>
+        </div>
+
+        <section id="intro" class="hidden">
+          <h1 data-i18n="introTitle">آزمایش خانگی نظریه تشخیص سیگنال</h1>
+          <p data-i18n-html="introBody">
             در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها یک
             <b>شکاف کوچک</b> دارد و گاهی همه کامل‌اند. بعد از ناپدید شدن تصویر
             بگویید «هست» یا «نیست».
           </p>
-          <div class="note">
+          <div class="note" data-i18n="introStructure">
             ساختار: ۲ کوشش تمرینی + ۱۰ کوشش حالت عادی + ۱۰ کوشش پاداش/تنبیه. در
             هر مرحله اصلی دقیقاً ۵ Signal و ۵ Noise وجود دارد.
           </div>
-          <p class="muted">
+          <p class="muted" data-i18n="introNote">
             در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود
             ۱.۱ ثانیه نمایش داده می‌شود.
           </p>
           <div class="center">
-            <button id="start" class="primary">شروع تمرین</button>
+            <button id="start" class="primary" data-i18n="startPractice">
+              شروع تمرین
+            </button>
           </div>
         </section>
 
@@ -352,21 +466,23 @@
             <div id="fix" class="hidden">+</div>
             <canvas id="cv" width="560" height="560" class="hidden"></canvas>
             <div id="ask" class="hidden center">
-              <h2>آیا دایره‌ی شکسته وجود داشت؟</h2>
-              <button class="resp primary" data-r="1">هست</button>
-              <button class="resp" data-r="0">نیست</button>
-              <p class="muted">کلید Y = هست، کلید N = نیست</p>
+              <h2 data-i18n="question">آیا دایره‌ی شکسته وجود داشت؟</h2>
+              <button class="resp primary" data-r="1" data-i18n="yes">
+                هست
+              </button>
+              <button class="resp" data-r="0" data-i18n="no">نیست</button>
+              <p class="muted" data-i18n="keys">کلید Y = هست، کلید N = نیست</p>
             </div>
           </div>
         </section>
 
         <section id="brk" class="hidden">
-          <h2>مرحله عادی تمام شد</h2>
-          <p>در مرحله دوم قانون امتیاز چنین است:</p>
+          <h2 data-i18n="normalDone">مرحله عادی تمام شد</h2>
+          <p data-i18n="rewardRuleIntro">در مرحله دوم قانون امتیاز چنین است:</p>
           <table>
             <tr>
-              <th>نتیجه</th>
-              <th>امتیاز</th>
+              <th data-i18n="outcomeHeader">نتیجه</th>
+              <th data-i18n="scoreHeader">امتیاز</th>
             </tr>
             <tr>
               <td>Hit</td>
@@ -385,35 +501,175 @@
               <td>0</td>
             </tr>
           </table>
-          <div class="note">
+          <div class="note" data-i18n-html="rewardGoal">
             <b>هدف:</b> بیشترین امتیاز ممکن را بگیرید. پاسخ درست و امتیاز جاری
             تا پایان نمایش داده نمی‌شود.
           </div>
           <div class="center">
-            <button id="reward" class="primary">شروع پاداش/تنبیه</button>
+            <button id="reward" class="primary" data-i18n="startReward">
+              شروع پاداش/تنبیه
+            </button>
           </div>
         </section>
 
         <section id="res" class="hidden">
-          <h2>نتایج</h2>
+          <h2 data-i18n="resultsTitle">نتایج</h2>
           <div id="tables"></div>
           <div id="interp" class="note"></div>
           <p id="score"></p>
-          <p class="muted">
+          <p class="muted" data-i18n="boundaryNote">
             اگر H یا F دقیقاً ۰ یا ۱ باشد، برای محاسبه Z از اصلاح مرزی 0.5/N
             استفاده شده است تا d′ و c نامتناهی نشوند. نرخ خام در جدول حفظ
             می‌شود.
           </p>
           <div class="center">
-            <button id="csv1" class="primary">
-              دانلود داده‌های trial-by-trial</button
-            ><button id="csv2">دانلود خلاصه محاسبات</button>
+            <button id="csv1" class="primary" data-i18n="downloadTrials">
+              دانلود داده‌های trial-by-trial
+            </button>
+            <button id="csv2" data-i18n="downloadSummary">
+              دانلود خلاصه محاسبات
+            </button>
           </div>
         </section>
       </div>
     </main>
     <script>
       (() => {
+        const translations = {
+          fa: {
+            documentTitle: "آزمایش SDT",
+            switchLabel: "English",
+            introTitle: "آزمایش خانگی نظریه تشخیص سیگنال",
+            introBody:
+              "در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها یک <b>شکاف کوچک</b> دارد و گاهی همه کامل‌اند. بعد از ناپدید شدن تصویر بگویید «هست» یا «نیست».",
+            introStructure:
+              "ساختار: ۲ کوشش تمرینی + ۱۰ کوشش حالت عادی + ۱۰ کوشش پاداش/تنبیه. در هر مرحله اصلی دقیقاً ۵ Signal و ۵ Noise وجود دارد.",
+            introNote:
+              "در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود ۱.۱ ثانیه نمایش داده می‌شود.",
+            startPractice: "شروع تمرین",
+            question: "آیا دایره‌ی شکسته وجود داشت؟",
+            yes: "هست",
+            no: "نیست",
+            keys: "کلید Y = هست، کلید N = نیست",
+            normalDone: "مرحله عادی تمام شد",
+            rewardRuleIntro: "در مرحله دوم قانون امتیاز چنین است:",
+            outcomeHeader: "نتیجه",
+            scoreHeader: "امتیاز",
+            rewardGoal:
+              "<b>هدف:</b> بیشترین امتیاز ممکن را بگیرید. پاسخ درست و امتیاز جاری تا پایان نمایش داده نمی‌شود.",
+            startReward: "شروع پاداش/تنبیه",
+            resultsTitle: "نتایج",
+            boundaryNote:
+              "اگر H یا F دقیقاً ۰ یا ۱ باشد، برای محاسبه Z از اصلاح مرزی 0.5/N استفاده شده است تا d′ و c نامتناهی نشوند. نرخ خام در جدول حفظ می‌شود.",
+            downloadTrials: "دانلود داده‌های trial-by-trial",
+            downloadSummary: "دانلود خلاصه محاسبات",
+            practice: "تمرین",
+            normal: "حالت عادی",
+            reward: "پاداش/تنبیه",
+            trialOf: (n, total) => `کوشش ${n} از ${total}`,
+            practiceCorrect: "تمرین: درست",
+            practiceIncorrect: "تمرین: نادرست",
+            normalTable: "حالت عادی",
+            rewardTable: "پاداش/تنبیه",
+            signalPresent: "Signal Present",
+            signalAbsent: "Signal Absent",
+            respondYes: "Respond Yes",
+            respondNo: "Respond No",
+            conservative: (a, b, dc) =>
+              `c از ${a} به ${b} رسید (Δc=${dc}): معیار شما <b>محافظه‌کارانه‌تر</b> شد.`,
+            liberal: (a, b, dc) =>
+              `c از ${a} به ${b} رسید (Δc=${dc}): معیار شما <b>لیبرال‌تر</b> شد.`,
+            littleChange: (dc) => `Δc=${dc}: تغییر معیار بسیار کوچک بود.`,
+            finalScore: (score) => `امتیاز نهایی مرحله پاداش/تنبیه: ${score}`,
+          },
+          en: {
+            documentTitle: "SDT Experiment",
+            switchLabel: "فارسی",
+            introTitle: "Home Signal Detection Theory Experiment",
+            introBody:
+              "On each trial, you will see a 6×6 grid of circles. Sometimes one circle contains a <b>small gap</b>, and sometimes all circles are complete. After the image disappears, respond “Present” or “Absent”.",
+            introStructure:
+              "Structure: 2 practice trials + 10 normal trials + 10 reward/punishment trials. Each main block contains exactly 5 Signal and 5 Noise trials.",
+            introNote:
+              "Use the same device and keep viewing distance and brightness as constant as possible. The image is shown for about 1.1 seconds.",
+            startPractice: "Start practice",
+            question: "Was there a broken circle?",
+            yes: "Present",
+            no: "Absent",
+            keys: "Y = Present, N = Absent",
+            normalDone: "Normal block completed",
+            rewardRuleIntro: "In the second block, the scoring rule is:",
+            outcomeHeader: "Outcome",
+            scoreHeader: "Score",
+            rewardGoal:
+              "<b>Goal:</b> Earn the highest possible score. The correct answer and your running score will not be shown until the end.",
+            startReward: "Start reward/punishment block",
+            resultsTitle: "Results",
+            boundaryNote:
+              "If H or F is exactly 0 or 1, a 0.5/N boundary correction is used for the Z transformation so that d′ and c do not become infinite. Raw rates are still shown in the table.",
+            downloadTrials: "Download trial-by-trial data",
+            downloadSummary: "Download summary calculations",
+            practice: "Practice",
+            normal: "Normal",
+            reward: "Reward/Punishment",
+            trialOf: (n, total) => `Trial ${n} of ${total}`,
+            practiceCorrect: "Practice: Correct",
+            practiceIncorrect: "Practice: Incorrect",
+            normalTable: "Normal",
+            rewardTable: "Reward/Punishment",
+            signalPresent: "Signal Present",
+            signalAbsent: "Signal Absent",
+            respondYes: "Respond Yes",
+            respondNo: "Respond No",
+            conservative: (a, b, dc) =>
+              `c changed from ${a} to ${b} (Δc=${dc}): your decision criterion became <b>more conservative</b>.`,
+            liberal: (a, b, dc) =>
+              `c changed from ${a} to ${b} (Δc=${dc}): your decision criterion became <b>more liberal</b>.`,
+            littleChange: (dc) =>
+              `Δc=${dc}: the change in decision criterion was very small.`,
+            finalScore: (score) => `Final reward/punishment score: ${score}`,
+          },
+        };
+
+        let currentLanguage = "fa";
+
+        function applyLanguage(lang) {
+          currentLanguage = lang;
+          const t = translations[lang];
+          document.documentElement.lang = lang;
+          document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+          document.title = t.documentTitle;
+
+          document.querySelectorAll("[data-i18n]").forEach((el) => {
+            const key = el.dataset.i18n;
+            if (typeof t[key] === "string") el.textContent = t[key];
+          });
+
+          document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+            const key = el.dataset.i18nHtml;
+            if (typeof t[key] === "string") el.innerHTML = t[key];
+          });
+
+          q("switchLanguage").textContent = t.switchLabel;
+
+          // LANGUAGE-EDIT: refresh dynamic text too if language changes mid-experiment.
+          if (!q("task").classList.contains("hidden")) updateProgressText();
+          if (summary)
+            renderResults(summary.a, summary.b, summary.dc, summary.sc);
+        }
+
+        function chooseLanguage(lang) {
+          applyLanguage(lang);
+          q("languageGate").classList.add("hidden");
+          q("languageSwitcher").classList.remove("hidden");
+          q("intro").classList.remove("hidden");
+        }
+
+        q("chooseFa").onclick = () => chooseLanguage("fa");
+        q("chooseEn").onclick = () => chooseLanguage("en");
+        q("switchLanguage").onclick = () =>
+          applyLanguage(currentLanguage === "fa" ? "en" : "fa");
+        // LANGUAGE-EDIT: END
         const FIX = 500,
           STIM = 1100,
           G = 6;
@@ -471,18 +727,27 @@
           }
         });
 
+        // LANGUAGE-EDIT: phase label follows the selected language.
         function label() {
+          const t = translations[currentLanguage];
           return phase == "practice"
-            ? "تمرین"
+            ? t.practice
             : phase == "normal"
-              ? "حالت عادی"
-              : "پاداش/تنبیه";
+              ? t.normal
+              : t.reward;
+        }
+
+        // LANGUAGE-EDIT: extracted so switching language can refresh progress text.
+        function updateProgressText() {
+          const t = translations[currentLanguage];
+          prog.textContent = `${label()} - ${t.trialOf(i + 1, arr.length)}`;
         }
         function run() {
           ask.classList.add("hidden");
           cv.classList.add("hidden");
           fix.classList.remove("hidden");
-          prog.textContent = `${label()} — کوشش ${i + 1} از ${arr.length}`;
+          // LANGUAGE-EDIT: bilingual progress text.
+          updateProgressText();
           setTimeout(() => {
             fix.classList.add("hidden");
             draw(arr[i]);
@@ -562,7 +827,10 @@
             score: sd,
           });
           if (phase == "practice") {
-            prog.textContent = `تمرین: ${tr.s == y ? "درست" : "نادرست"}`;
+            // LANGUAGE-EDIT: bilingual practice feedback.
+            const t = translations[currentLanguage];
+            prog.textContent =
+              tr.s == y ? t.practiceCorrect : t.practiceIncorrect;
             setTimeout(next, 450);
           } else setTimeout(next, 120);
         }
@@ -664,11 +932,26 @@
           return { h, m, fa, cr, H, F, dp: zH - zF, c: -0.5 * (zH + zF), corr };
         }
         function f(x) {
-          return Number.isFinite(x) ? x.toFixed(2) : "—";
+          return Number.isFinite(x) ? x.toFixed(2) : "-";
         }
+        // LANGUAGE-EDIT: result-table labels are bilingual; numeric values are unchanged.
         function tab(title, m) {
-          return `<h3>${title}</h3><table><tr><th></th><th>Signal Present</th><th>Signal Absent</th></tr><tr><th>Respond Yes</th><td>Hit = ${m.h}</td><td>False Alarm = ${m.fa}</td></tr><tr><th>Respond No</th><td>Miss = ${m.m}</td><td>Correct Rejection = ${m.cr}</td></tr></table><table><tr><th>H</th><th>F</th><th>d′</th><th>c</th></tr><tr><td>${f(m.H)}</td><td>${f(m.F)}</td><td>${f(m.dp)}</td><td>${f(m.c)}</td></tr></table>`;
+          const t = translations[currentLanguage];
+          return `<h3>${title}</h3><table><tr><th></th><th>${t.signalPresent}</th><th>${t.signalAbsent}</th></tr><tr><th>${t.respondYes}</th><td>Hit = ${m.h}</td><td>False Alarm = ${m.fa}</td></tr><tr><th>${t.respondNo}</th><td>Miss = ${m.m}</td><td>Correct Rejection = ${m.cr}</td></tr></table><table><tr><th>H</th><th>F</th><th>d′</th><th>c</th></tr><tr><td>${f(m.H)}</td><td>${f(m.F)}</td><td>${f(m.dp)}</td><td>${f(m.c)}</td></tr></table>`;
         }
+        // LANGUAGE-EDIT: calculations are unchanged; only result rendering is bilingual.
+        function renderResults(a, b, dc, sc) {
+          const t = translations[currentLanguage];
+          q("tables").innerHTML = tab(t.normalTable, a) + tab(t.rewardTable, b);
+          q("interp").innerHTML =
+            dc > 0.05
+              ? t.conservative(f(a.c), f(b.c), f(dc))
+              : dc < -0.05
+                ? t.liberal(f(a.c), f(b.c), f(dc))
+                : t.littleChange(f(dc));
+          q("score").textContent = t.finalScore(sc);
+        }
+
         function show() {
           let a = met("Normal"),
             b = met("Reward"),
@@ -676,15 +959,8 @@
             sc = data
               .filter((x) => x.block == "Reward")
               .reduce((s, x) => s + x.score, 0);
-          q("tables").innerHTML = tab("حالت عادی", a) + tab("پاداش/تنبیه", b);
-          q("interp").innerHTML =
-            dc > 0.05
-              ? `c از ${f(a.c)} به ${f(b.c)} رسید (Δc=${f(dc)}): معیار شما <b>محافظه‌کارانه‌تر</b> شد.`
-              : dc < -0.05
-                ? `c از ${f(a.c)} به ${f(b.c)} رسید (Δc=${f(dc)}): معیار شما <b>لیبرال‌تر</b> شد.`
-                : `Δc=${f(dc)}: تغییر معیار بسیار کوچک بود.`;
-          q("score").textContent = `امتیاز نهایی مرحله پاداش/تنبیه: ${sc}`;
           summary = { a, b, dc, sc };
+          renderResults(a, b, dc, sc);
           res.classList.remove("hidden");
         }
         function esc(v) {
