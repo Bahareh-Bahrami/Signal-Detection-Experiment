@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>آزمایش SDT</title>
+<style>
+body{font-family:Tahoma,Arial,sans-serif;background:#f6f6f7;color:#171717;margin:0}
+main{max-width:820px;margin:auto;padding:24px}
+.card{background:#fff;border:1px solid #ddd;border-radius:16px;padding:24px}
+.hidden{display:none!important}.center{text-align:center}.muted{color:#666}.note{background:#f1f1f1;border-radius:10px;padding:12px;line-height:1.9}
+button{font:inherit;padding:12px 20px;border-radius:10px;border:1px solid #222;background:#fff;cursor:pointer;margin:6px}
+.primary{background:#111;color:#fff}.resp{min-width:150px;font-size:1.1rem}
+#stimwrap{min-height:470px;display:flex;align-items:center;justify-content:center}#fix{font-size:64px}
+canvas{max-width:92vw;max-height:62vh;background:#fff}
+table{width:100%;border-collapse:collapse;margin:16px 0}th,td{border:1px solid #ddd;padding:9px;text-align:center}th{background:#f1f1f1}
+</style>
+</head>
+<body><main><div class="card">
+
+<section id="intro">
+<h1>آزمایش خانگی نظریه تشخیص سیگنال</h1>
+<p>در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها یک <b>شکاف کوچک</b> دارد و گاهی همه کامل‌اند. بعد از ناپدید شدن تصویر بگویید «هست» یا «نیست».</p>
+<div class="note">ساختار: ۲ کوشش تمرینی + ۱۰ کوشش حالت عادی + ۱۰ کوشش پاداش/تنبیه. در هر مرحله اصلی دقیقاً ۵ Signal و ۵ Noise وجود دارد.</div>
+<p class="muted">در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود ۱.۱ ثانیه نمایش داده می‌شود.</p>
+<div class="center"><button id="start" class="primary">شروع تمرین</button></div>
+</section>
+
+<section id="task" class="hidden">
+<div id="prog" class="muted"></div>
+<div id="stimwrap">
+<div id="fix" class="hidden">+</div>
+<canvas id="cv" width="560" height="560" class="hidden"></canvas>
+<div id="ask" class="hidden center">
+<h2>آیا دایره‌ی شکسته وجود داشت؟</h2>
+<button class="resp primary" data-r="1">هست</button>
+<button class="resp" data-r="0">نیست</button>
+<p class="muted">کلید Y = هست، کلید N = نیست</p>
+</div>
+</div>
+</section>
+
+<section id="brk" class="hidden">
+<h2>مرحله عادی تمام شد</h2>
+<p>در مرحله دوم قانون امتیاز چنین است:</p>
+<table><tr><th>نتیجه</th><th>امتیاز</th></tr>
+<tr><td>Hit</td><td>+1</td></tr><tr><td>False Alarm</td><td>−1</td></tr>
+<tr><td>Miss</td><td>0</td></tr><tr><td>Correct Rejection</td><td>0</td></tr></table>
+<div class="note"><b>هدف:</b> بیشترین امتیاز ممکن را بگیرید. پاسخ درست و امتیاز جاری تا پایان نمایش داده نمی‌شود.</div>
+<div class="center"><button id="reward" class="primary">شروع پاداش/تنبیه</button></div>
+</section>
+
+<section id="res" class="hidden">
+<h2>نتایج</h2><div id="tables"></div><div id="interp" class="note"></div><p id="score"></p>
+<p class="muted">اگر H یا F دقیقاً ۰ یا ۱ باشد، برای محاسبه Z از اصلاح مرزی 0.5/N استفاده شده است تا d′ و c نامتناهی نشوند. نرخ خام در جدول حفظ می‌شود.</p>
+<div class="center"><button id="csv1" class="primary">دانلود داده‌های trial-by-trial</button><button id="csv2">دانلود خلاصه محاسبات</button></div>
+</section>
+
+</div></main>
+<script>
+(()=>{
+const FIX=500, STIM=1100, G=6;
+const practice=[{s:1},{s:0}];
+function block(name){let a=[];for(let i=0;i<5;i++)a.push({s:1,b:name});for(let i=0;i<5;i++)a.push({s:0,b:name});for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const normal=block("Normal"), reward=block("Reward");
+let phase="practice", arr=practice, i=0, data=[], t0=0, summary=null;
+const intro=q("intro"),task=q("task"),brk=q("brk"),res=q("res"),fix=q("fix"),cv=q("cv"),ask=q("ask"),prog=q("prog"),ctx=cv.getContext("2d");
+function q(x){return document.getElementById(x)}
+q("start").onclick=()=>{intro.classList.add("hidden");task.classList.remove("hidden");run()};
+q("reward").onclick=()=>{brk.classList.add("hidden");task.classList.remove("hidden");phase="reward";arr=reward;i=0;run()};
+document.querySelectorAll(".resp").forEach(b=>b.onclick=()=>respond(+b.dataset.r));
+document.addEventListener("keydown",e=>{if(!ask.classList.contains("hidden")){if(e.key.toLowerCase()=="y")respond(1);if(e.key.toLowerCase()=="n")respond(0)}});
+
+function label(){return phase=="practice"?"تمرین":phase=="normal"?"حالت عادی":"پاداش/تنبیه"}
+function run(){
+ask.classList.add("hidden");cv.classList.add("hidden");fix.classList.remove("hidden");
+prog.textContent=`${label()} — کوشش ${i+1} از ${arr.length}`;
+setTimeout(()=>{fix.classList.add("hidden");draw(arr[i]);cv.classList.remove("hidden");
+setTimeout(()=>{cv.classList.add("hidden");ask.classList.remove("hidden");t0=performance.now()},STIM)},FIX)}
+function draw(tr){
+ctx.clearRect(0,0,560,560);ctx.fillStyle="#fff";ctx.fillRect(0,0,560,560);ctx.strokeStyle="#111";ctx.lineWidth=3;ctx.lineCap="round";
+const m=70,step=(560-2*m)/(G-1),rad=16;let rr=-1,cc=-1,ang=0;
+if(tr.s){rr=Math.floor(Math.random()*G);cc=Math.floor(Math.random()*G);ang=Math.random()*Math.PI*2}
+for(let r=0;r<G;r++)for(let c=0;c<G;c++){let x=m+c*step,y=m+r*step;ctx.beginPath();
+if(tr.s&&r==rr&&c==cc){let gap=32*Math.PI/180;ctx.arc(x,y,rad,ang+gap/2,ang-gap/2+2*Math.PI)}else ctx.arc(x,y,rad,0,2*Math.PI);ctx.stroke()}
+}
+function outcome(s,y){return s&&y?"Hit":s&&!y?"Miss":!s&&y?"False Alarm":"Correct Rejection"}
+function respond(y){
+if(ask.classList.contains("hidden"))return;ask.classList.add("hidden");
+let tr=arr[i],out=outcome(tr.s,y),b=phase=="practice"?"Practice":phase=="normal"?"Normal":"Reward";
+let sd=b=="Reward"?(out=="Hit"?1:out=="False Alarm"?-1:0):0;
+data.push({block:b,trial:i+1,signal:tr.s,response:y,outcome:out,rt:Math.round(performance.now()-t0),score:sd});
+if(phase=="practice"){prog.textContent=`تمرین: ${tr.s==y?"درست":"نادرست"}`;setTimeout(next,450)}else setTimeout(next,120)
+}
+function next(){i++;if(i<arr.length)return run();
+if(phase=="practice"){phase="normal";arr=normal;i=0;return run()}
+if(phase=="normal"){task.classList.add("hidden");brk.classList.remove("hidden");return}
+task.classList.add("hidden");show()}
+function inv(p){
+const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239],
+b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+c=[-.007784894002430293,-.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+d=[.007784695709041462,.3224671290700398,2.445134137142996,3.754408661907416],pl=.02425,ph=1-pl;let q,r;
+if(p<pl){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+if(p>ph){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+q=p-.5;r=q*q;return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)}
+function met(bn){
+let dta=data.filter(x=>x.block==bn),h=dta.filter(x=>x.outcome=="Hit").length,m=dta.filter(x=>x.outcome=="Miss").length,
+fa=dta.filter(x=>x.outcome=="False Alarm").length,cr=dta.filter(x=>x.outcome=="Correct Rejection").length,nS=h+m,nN=fa+cr,H=h/nS,F=fa/nN,Hz=H,Fz=F,corr=false;
+if(H==1){Hz=1-.5/nS;corr=true} if(H==0){Hz=.5/nS;corr=true} if(F==1){Fz=1-.5/nN;corr=true} if(F==0){Fz=.5/nN;corr=true}
+let zH=inv(Hz),zF=inv(Fz);return{h,m,fa,cr,H,F,dp:zH-zF,c:-.5*(zH+zF),corr}
+}
+function f(x){return Number.isFinite(x)?x.toFixed(2):"—"}
+function tab(title,m){return `<h3>${title}</h3><table><tr><th></th><th>Signal Present</th><th>Signal Absent</th></tr><tr><th>Respond Yes</th><td>Hit = ${m.h}</td><td>False Alarm = ${m.fa}</td></tr><tr><th>Respond No</th><td>Miss = ${m.m}</td><td>Correct Rejection = ${m.cr}</td></tr></table><table><tr><th>H</th><th>F</th><th>d′</th><th>c</th></tr><tr><td>${f(m.H)}</td><td>${f(m.F)}</td><td>${f(m.dp)}</td><td>${f(m.c)}</td></tr></table>`}
+function show(){
+let a=met("Normal"),b=met("Reward"),dc=b.c-a.c,sc=data.filter(x=>x.block=="Reward").reduce((s,x)=>s+x.score,0);
+q("tables").innerHTML=tab("حالت عادی",a)+tab("پاداش/تنبیه",b);
+q("interp").innerHTML=dc>.05?`c از ${f(a.c)} به ${f(b.c)} رسید (Δc=${f(dc)}): معیار شما <b>محافظه‌کارانه‌تر</b> شد.`:dc<-.05?`c از ${f(a.c)} به ${f(b.c)} رسید (Δc=${f(dc)}): معیار شما <b>لیبرال‌تر</b> شد.`:`Δc=${f(dc)}: تغییر معیار بسیار کوچک بود.`;
+q("score").textContent=`امتیاز نهایی مرحله پاداش/تنبیه: ${sc}`;
+summary={a,b,dc,sc};res.classList.remove("hidden")
+}
+function esc(v){return `"${String(v).replace(/"/g,'""')}"`}
+function dl(name,rows){let s="\uFEFF"+rows.map(r=>r.map(esc).join(",")).join("\n"),blob=new Blob([s],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+q("csv1").onclick=()=>{let rows=[["block","trial","signal_present","response_yes","outcome","rt_ms","score_delta"]];data.filter(x=>x.block!="Practice").forEach(x=>rows.push([x.block,x.trial,x.signal,x.response,x.outcome,x.rt,x.score]));dl("SDT_trial_data.csv",rows)};
+q("csv2").onclick=()=>{let {a,b,dc,sc}=summary;dl("SDT_summary.csv",[["block","Hit","Miss","False_Alarm","Correct_Rejection","Hit_Rate","FA_Rate","d_prime","c","boundary_correction"],["Normal",a.h,a.m,a.fa,a.cr,a.H,a.F,a.dp,a.c,a.corr],["Reward",b.h,b.m,b.fa,b.cr,b.H,b.F,b.dp,b.c,b.corr],[],["delta_c",dc],["reward_score",sc]])}
+})();
+</script></body></html>
