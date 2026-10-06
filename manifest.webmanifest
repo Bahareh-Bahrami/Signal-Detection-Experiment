@@ -1,0 +1,20 @@
+{
+  "name": "Signal Detection Lab",
+  "short_name": "SDT Lab",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f3ff",
+  "theme_color": "#68469e",
+  "icons": [
+    {
+      "src": "img/favicon-64px.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "img/apple-touch-icon-180px.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
