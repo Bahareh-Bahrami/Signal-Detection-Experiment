@@ -2,27 +2,25 @@
 <html lang="fa" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Interactive bilingual Signal Detection Theory experiment examining shifts in decision criterion under reward and punishment conditions."
+    />
     <title>آزمایش SDT</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
     <style>
       :root {
         --bg: #f7f3ff;
-        --bg-deep: #efe7ff;
-        --surface: rgba(255, 255, 255, 0.94);
+        --bg-deep: #eee5fb;
+        --surface: rgba(255, 255, 255, 0.95);
         --surface-soft: #fbf9ff;
         --lilac-50: #faf7ff;
         --lilac-100: #f1e9ff;
@@ -34,6 +32,8 @@
         --ink: #2c2440;
         --muted: #746b84;
         --border: #e5dcf1;
+        --success: #496d57;
+        --danger: #8f4b58;
         --shadow: 0 18px 50px rgba(94, 66, 133, 0.12);
         --shadow-soft: 0 8px 22px rgba(94, 66, 133, 0.08);
       }
@@ -41,50 +41,45 @@
       * {
         box-sizing: border-box;
       }
+
       html {
         background: var(--bg);
       }
+
       body {
-        font-family: "Vazirmatn", "Segoe UI", Tahoma, Arial, sans-serif;
-        background:
-          radial-gradient(
-            circle at 12% 8%,
-            rgba(205, 180, 242, 0.38),
-            transparent 30%
-          ),
-          radial-gradient(
-            circle at 88% 90%,
-            rgba(226, 211, 251, 0.5),
-            transparent 34%
-          ),
-          linear-gradient(
-            135deg,
-            var(--bg) 0%,
-            #fcfaff 48%,
-            var(--bg-deep) 100%
-          );
-        color: var(--ink);
         margin: 0;
         min-height: 100vh;
+        font-family: "Vazirmatn", "Segoe UI", Tahoma, Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 8%, rgba(205, 180, 242, 0.38), transparent 30%),
+          radial-gradient(circle at 88% 90%, rgba(226, 211, 251, 0.5), transparent 34%),
+          linear-gradient(135deg, var(--bg) 0%, #fcfaff 48%, var(--bg-deep) 100%);
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
       }
 
-      main {
-        max-width: 900px;
-        margin: auto;
-        padding: 42px 20px 56px;
+      html[lang="en"] body {
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
       }
+
+      main {
+        max-width: 920px;
+        margin: auto;
+        padding: 34px 18px 54px;
+      }
+
       .card {
         position: relative;
         overflow: hidden;
         background: var(--surface);
         border: 1px solid rgba(154, 120, 208, 0.22);
         border-radius: 28px;
-        padding: 34px;
+        padding: 32px;
         box-shadow: var(--shadow);
         backdrop-filter: blur(10px);
       }
+
       .card::before {
         content: "";
         position: absolute;
@@ -97,13 +92,15 @@
           var(--lilac-300)
         );
       }
+
       section {
-        animation: uiFade 0.28s ease;
+        animation: uiFade 0.25s ease;
       }
+
       @keyframes uiFade {
         from {
           opacity: 0;
-          transform: translateY(5px);
+          transform: translateY(4px);
         }
         to {
           opacity: 1;
@@ -115,28 +112,33 @@
       h2,
       h3 {
         color: var(--ink);
-        letter-spacing: -0.025em;
+        letter-spacing: -0.02em;
         line-height: 1.55;
       }
+
       h1 {
-        font-size: clamp(1.65rem, 3vw, 2.25rem);
+        font-size: clamp(1.65rem, 3vw, 2.2rem);
         font-weight: 700;
         margin: 0 0 18px;
       }
+
       h2 {
-        font-size: 1.55rem;
+        font-size: 1.45rem;
         font-weight: 700;
-        margin: 0 0 16px;
+        margin: 0 0 15px;
       }
+
       h3 {
-        font-size: 1.13rem;
+        font-size: 1.08rem;
         font-weight: 700;
-        margin-top: 28px;
+        margin: 24px 0 10px;
       }
+
       p {
         line-height: 2;
-        margin: 12px 0;
+        margin: 11px 0;
       }
+
       b {
         font-weight: 700;
         color: #4f3477;
@@ -145,15 +147,17 @@
       .hidden {
         display: none !important;
       }
+
       .center {
         text-align: center;
       }
+
       .muted {
         color: var(--muted);
-        font-size: 0.94rem;
+        font-size: 0.93rem;
       }
+
       .note {
-        position: relative;
         background: linear-gradient(135deg, var(--lilac-50), var(--lilac-100));
         border: 1px solid var(--lilac-200);
         border-right: 4px solid var(--lilac-500);
@@ -162,6 +166,11 @@
         line-height: 1.95;
         margin: 18px 0;
         box-shadow: var(--shadow-soft);
+      }
+
+      html[lang="en"] .note {
+        border-right: 1px solid var(--lilac-200);
+        border-left: 4px solid var(--lilac-500);
       }
 
       button {
@@ -182,164 +191,84 @@
           background 0.16s ease;
         box-shadow: 0 5px 14px rgba(92, 63, 132, 0.07);
       }
+
       button:hover {
         transform: translateY(-1px);
         border-color: var(--lilac-500);
         background: var(--lilac-50);
         box-shadow: 0 9px 20px rgba(92, 63, 132, 0.12);
       }
+
       button:active {
         transform: translateY(0);
-        box-shadow: 0 4px 10px rgba(92, 63, 132, 0.08);
       }
+
       button:focus-visible {
         outline: 3px solid rgba(154, 120, 208, 0.28);
         outline-offset: 3px;
       }
+
       .primary {
         background: linear-gradient(135deg, var(--lilac-600), var(--lilac-700));
         border-color: transparent;
         color: #fff;
         box-shadow: 0 10px 22px rgba(104, 70, 158, 0.22);
       }
+
       .primary:hover {
         background: linear-gradient(135deg, #8a67c3, #6d4aa5);
         color: #fff;
       }
-      .resp {
-        min-width: 160px;
-        font-size: 1.07rem;
+
+      .topbar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        min-height: 32px;
+        margin: -6px 0 12px;
       }
 
-      #prog {
+      .lang-mini {
         display: inline-flex;
         align-items: center;
-        min-height: 36px;
-        padding: 7px 13px;
+        gap: 5px;
+        padding: 4px 6px;
         border: 1px solid var(--lilac-200);
         border-radius: 999px;
         background: var(--lilac-50);
-        color: var(--lilac-700);
-        font-weight: 600;
-        margin-bottom: 12px;
-      }
-      #stimwrap {
-        min-height: 490px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 18px;
-        margin-top: 8px;
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        background: linear-gradient(180deg, #fff, var(--surface-soft));
-      }
-      #fix {
-        font-size: 64px;
-        color: var(--ink);
-        font-weight: 400;
-      }
-      #ask {
-        width: 100%;
-      }
-      #ask h2 {
-        margin-bottom: 20px;
-      }
-      canvas {
-        max-width: 92vw;
-        max-height: 62vh;
-        background: #fff;
-        border: 1px solid #eee8f6;
-        border-radius: 18px;
-        box-shadow: 0 12px 34px rgba(52, 38, 72, 0.08);
       }
 
-      table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin: 18px 0;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 6px 18px rgba(70, 49, 97, 0.05);
-      }
-      th,
-      td {
+      .lang-mini button {
+        min-height: 30px;
+        margin: 0;
+        padding: 4px 9px;
         border: 0;
-        border-bottom: 1px solid var(--border);
-        border-left: 1px solid var(--border);
-        padding: 12px 11px;
-        text-align: center;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--muted);
+        box-shadow: none;
+        font-size: 0.78rem;
       }
-      tr:last-child td,
-      tr:last-child th {
-        border-bottom: 0;
-      }
-      th:last-child,
-      td:last-child {
-        border-left: 0;
-      }
-      th {
+
+      .lang-mini button:hover {
+        transform: none;
         background: var(--lilac-100);
-        color: #56397d;
-        font-weight: 700;
+        box-shadow: none;
       }
-      td {
+
+      .lang-mini button.active {
         background: #fff;
-      }
-
-      #score {
-        display: inline-block;
-        margin-top: 16px;
-        padding: 10px 14px;
-        border-radius: 12px;
-        background: var(--lilac-100);
         color: var(--lilac-700);
-        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(92, 63, 132, 0.1);
       }
 
-      @media (max-width: 640px) {
-        main {
-          padding: 18px 10px 30px;
-        }
-        .card {
-          padding: 22px 16px;
-          border-radius: 20px;
-        }
-        #stimwrap {
-          min-height: 420px;
-          padding: 10px;
-        }
-        button {
-          width: 100%;
-          margin: 6px 0;
-        }
-        .resp {
-          min-width: 0;
-        }
-        table {
-          font-size: 0.88rem;
-        }
-        th,
-        td {
-          padding: 9px 6px;
-        }
-      }
-
-      /* LANGUAGE-EDIT: START - language chooser + LTR/RTL support */
-      html[lang="en"] body {
-        font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      }
-
-      html[lang="en"] .note {
-        border-right: 1px solid var(--lilac-200);
-        border-left: 4px solid var(--lilac-500);
+      .lang-sep {
+        color: var(--lilac-300);
+        font-size: 0.8rem;
       }
 
       .language-gate {
-        min-height: 560px;
+        min-height: 540px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -376,27 +305,339 @@
         margin: 0;
       }
 
-      .language-switcher {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 18px;
+      .advanced-button {
+        background: var(--lilac-50);
+        border-color: var(--lilac-300);
       }
 
-      .language-switcher button {
-        min-height: 38px;
-        padding: 7px 13px;
-        margin: 0;
+      .mode-note {
+        margin-top: 10px;
+        font-size: 0.86rem;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .practice-feedback {
+        width: min(420px, 90%);
+        padding: 22px 24px;
+        border-radius: 18px;
+        text-align: center;
+        font-size: 1.55rem;
+        font-weight: 700;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .practice-feedback.correct {
+        background: #edf7ef;
+        border-color: #cde6d3;
+        color: var(--success);
+      }
+
+      .practice-feedback.incorrect {
+        background: #fbf0f2;
+        border-color: #efd2d8;
+        color: var(--danger);
+      }
+
+      .task-header {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      #prog {
+        color: var(--lilac-700);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .progress-track {
+        height: 9px;
         border-radius: 999px;
-        font-size: 0.88rem;
-        box-shadow: none;
+        background: var(--lilac-100);
+        overflow: hidden;
+        border: 1px solid var(--lilac-200);
+      }
+
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--lilac-300), var(--lilac-600));
+        transition: width 0.22s ease;
+      }
+
+      #stimwrap {
+        min-height: 490px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: linear-gradient(180deg, #fff, var(--surface-soft));
+      }
+
+      #fix {
+        font-size: 64px;
+        color: var(--ink);
+        font-weight: 400;
+      }
+
+      #ask {
+        width: 100%;
+      }
+
+      #ask h2 {
+        margin-bottom: 20px;
+      }
+
+      .resp {
+        min-width: 160px;
+        font-size: 1.05rem;
+      }
+
+      canvas {
+        max-width: 92vw;
+        max-height: 62vh;
+        background: #fff;
+        border: 1px solid #eee8f6;
+        border-radius: 18px;
+        box-shadow: 0 12px 34px rgba(52, 38, 72, 0.08);
+      }
+
+      .ready-panel {
+        max-width: 650px;
+        margin: 16px auto 0;
+        text-align: center;
+        padding: 28px;
+        border: 1px solid var(--lilac-200);
+        border-radius: 20px;
+        background: linear-gradient(180deg, #fff, var(--lilac-50));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .score-rules {
+        display: grid;
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      .rule-card {
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        gap: 14px;
+        align-items: center;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .rule-value {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1.05rem;
+      }
+
+      .rule-value.plus {
+        background: #edf7ef;
+        color: var(--success);
+      }
+
+      .rule-value.minus {
+        background: #fbf0f2;
+        color: var(--danger);
+      }
+
+      .rule-copy {
+        line-height: 1.9;
+      }
+
+      .result-hero {
+        border: 1px solid var(--lilac-200);
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--lilac-50), #fff);
+        padding: 22px;
+        margin: 10px 0 18px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .result-hero h3 {
+        margin: 0 0 7px;
+        font-size: 1.25rem;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 16px 0 22px;
+      }
+
+      .metric-card {
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: 18px;
+        padding: 17px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(70, 49, 97, 0.05);
+      }
+
+      .metric-label {
+        color: var(--muted);
+        font-size: 0.86rem;
+        margin-bottom: 7px;
+      }
+
+      .metric-value {
+        color: var(--ink);
+        font-size: 1.32rem;
+        font-weight: 700;
+        direction: ltr;
+      }
+
+      .metric-delta {
+        color: var(--lilac-700);
+        font-size: 0.82rem;
+        margin-top: 6px;
+        direction: ltr;
+      }
+
+      .comparison-box {
+        margin: 20px 0;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .comparison-title {
+        padding: 14px 16px;
+        font-weight: 700;
+        background: var(--lilac-50);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .comparison-row {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 13px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .comparison-row:last-child {
+        border-bottom: 0;
+      }
+
+      .comparison-name {
+        font-weight: 600;
+      }
+
+      .comparison-values {
+        direction: ltr;
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .comparison-change {
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .rt-note {
+        margin-top: 10px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: var(--surface-soft);
+        color: var(--muted);
+        font-size: 0.85rem;
+        line-height: 1.8;
+      }
+
+      details {
+        margin: 20px 0;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      summary {
+        cursor: pointer;
+        padding: 14px 16px;
+        font-weight: 700;
+        color: var(--lilac-700);
         background: var(--lilac-50);
       }
 
-      html[dir="ltr"] .language-switcher {
-        justify-content: flex-start;
+      .details-body {
+        padding: 4px 16px 16px;
       }
 
-      @media (max-width: 640px) {
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 16px 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #fff;
+      }
+
+      th,
+      td {
+        border: 0;
+        border-bottom: 1px solid var(--border);
+        border-left: 1px solid var(--border);
+        padding: 11px 9px;
+        text-align: center;
+      }
+
+      tr:last-child td,
+      tr:last-child th {
+        border-bottom: 0;
+      }
+
+      th:last-child,
+      td:last-child {
+        border-left: 0;
+      }
+
+      th {
+        background: var(--lilac-100);
+        color: #56397d;
+        font-weight: 700;
+      }
+
+      .result-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+        margin-top: 18px;
+      }
+
+      @media (max-width: 700px) {
+        main {
+          padding: 16px 9px 28px;
+        }
+
+        .card {
+          padding: 20px 15px;
+          border-radius: 20px;
+        }
+
         .language-gate {
           min-height: 470px;
         }
@@ -405,28 +646,63 @@
           grid-template-columns: 1fr;
         }
 
-        .language-switcher button {
-          width: auto;
+        .task-header {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        #stimwrap {
+          min-height: 420px;
+          padding: 10px;
+        }
+
+        .metric-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .comparison-row {
+          grid-template-columns: 1fr;
+          gap: 3px;
+        }
+
+        .rule-card {
+          grid-template-columns: 48px 1fr;
+        }
+
+        .result-actions button,
+        .ready-panel button,
+        #intro .center button,
+        #brk .center button {
+          width: 100%;
+          margin: 5px 0;
+        }
+
+        .resp {
+          min-width: 130px;
+        }
+
+        table {
+          font-size: 0.86rem;
+        }
+
+        th,
+        td {
+          padding: 8px 5px;
         }
       }
-      /* LANGUAGE-EDIT: END */
     </style>
   </head>
+
   <body>
     <main>
       <div class="card">
-        <!-- LANGUAGE-EDIT: START - first-screen language chooser -->
         <section id="languageGate" class="language-gate">
           <div class="language-gate-inner">
             <div class="language-mark">Aa</div>
             <h1>
-              زبان را انتخاب کنید <br />
+              زبان را انتخاب کنید<br />
               Choose your language
             </h1>
-            <p class="muted">
-              برای شروع آزمایش، زبان رابط کاربری را انتخاب کنید<br />
-              Choose the interface language to begin the experiment
-            </p>
             <div class="language-buttons">
               <button id="chooseFa" class="primary">فارسی</button>
               <button id="chooseEn">English</button>
@@ -434,208 +710,468 @@
           </div>
         </section>
 
-        <div id="languageSwitcher" class="language-switcher hidden">
-          <button id="switchLanguage" type="button">English</button>
+        <div id="topbar" class="topbar hidden">
+          <div class="lang-mini" aria-label="Language">
+            <button id="langFa" type="button">FA</button>
+            <span class="lang-sep">|</span>
+            <button id="langEn" type="button">EN</button>
+          </div>
         </div>
 
         <section id="intro" class="hidden">
-          <h1 data-i18n="introTitle">آزمایش خانگی نظریه تشخیص سیگنال</h1>
+          <h1 data-i18n="introTitle">آزمایش تشخیص سیگنال</h1>
           <p data-i18n-html="introBody">
-            در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها یک
-            <b>شکاف کوچک</b> دارد و گاهی همه کامل‌اند. بعد از ناپدید شدن تصویر
-            بگویید «هست» یا «نیست».
+            در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها
+            شکسته است و یک <b>شکاف کوچک</b> دارد و گاهی همه‌ی دایره‌ها کامل‌اند.
+            پس از ناپدید شدن تصویر، پاسخ دهید «بله» یا «خیر».
           </p>
+
           <div class="note" data-i18n="introStructure">
-            ساختار: ۲ کوشش تمرینی + ۱۰ کوشش حالت عادی + ۱۰ کوشش پاداش/تنبیه. در
-            هر مرحله اصلی دقیقاً ۵ Signal و ۵ Noise وجود دارد.
+            ابتدا ۴ کوشش تمرینی انجام می‌دهید. سپس دو مرحله‌ی ۱۰ کوششی خواهید داشت.
           </div>
+
           <p class="muted" data-i18n="introNote">
             در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود
             ۱.۱ ثانیه نمایش داده می‌شود.
           </p>
+
           <div class="center">
-            <button id="start" class="primary" data-i18n="startPractice">
+            <button id="startPractice" class="primary" data-i18n="startPractice">
               شروع تمرین
             </button>
-          </div>
-        </section>
-
-        <section id="task" class="hidden">
-          <div id="prog" class="muted"></div>
-          <div id="stimwrap">
-            <div id="fix" class="hidden">+</div>
-            <canvas id="cv" width="560" height="560" class="hidden"></canvas>
-            <div id="ask" class="hidden center">
-              <h2 data-i18n="question">آیا دایره‌ی شکسته وجود داشت؟</h2>
-              <button class="resp primary" data-r="1" data-i18n="yes">
-                هست
-              </button>
-              <button class="resp" data-r="0" data-i18n="no">نیست</button>
-              <p class="muted" data-i18n="keys">کلید Y = هست، کلید N = نیست</p>
+            <button id="startAdvanced" class="advanced-button" data-i18n="startAdvanced">
+              نسخه پیشرفته و سخت‌تر
+            </button>
+            <div class="mode-note" data-i18n="advancedModeNote">
+              نسخه پیشرفته: دایره، مربع و مثلث | ۱۵ کوشش در هر مرحله
             </div>
           </div>
         </section>
 
-        <section id="brk" class="hidden">
-          <h2 data-i18n="normalDone">مرحله عادی تمام شد</h2>
-          <p data-i18n="rewardRuleIntro">در مرحله دوم قانون امتیاز چنین است:</p>
-          <table>
-            <tr>
-              <th data-i18n="outcomeHeader">نتیجه</th>
-              <th data-i18n="scoreHeader">امتیاز</th>
-            </tr>
-            <tr>
-              <td>Hit</td>
-              <td>+1</td>
-            </tr>
-            <tr>
-              <td>False Alarm</td>
-              <td>−1</td>
-            </tr>
-            <tr>
-              <td>Miss</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>Correct Rejection</td>
-              <td>0</td>
-            </tr>
-          </table>
-          <div class="note" data-i18n-html="rewardGoal">
-            <b>هدف:</b> بیشترین امتیاز ممکن را بگیرید. پاسخ درست و امتیاز جاری
-            تا پایان نمایش داده نمی‌شود.
+        <section id="task" class="hidden">
+          <div class="task-header">
+            <div id="prog"></div>
+            <div class="progress-track" aria-hidden="true">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
           </div>
+
+          <div id="stimwrap">
+            <div id="fix" class="hidden">+</div>
+            <canvas id="cv" width="560" height="560" class="hidden"></canvas>
+
+            <div id="ask" class="hidden center">
+              <h2 data-i18n="question">آیا دایره‌ی شکسته وجود داشت؟</h2>
+              <button class="resp primary" data-r="1" data-i18n="yes">بله</button>
+              <button class="resp" data-r="0" data-i18n="no">خیر</button>
+            </div>
+            <div id="practiceFeedback" class="practice-feedback hidden" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="ready" class="hidden">
+          <div class="ready-panel">
+            <h2 data-i18n="practiceDone">تمرین تمام شد</h2>
+            <p data-i18n="readyBody">
+              حالا با روند کار آشنا هستید. در آزمون اصلی بعد از هر پاسخ بازخوردی
+              دریافت نمی‌کنید. وقتی آماده بودید، آزمون اصلی را شروع کنید.
+            </p>
+            <button id="startMain" class="primary" data-i18n="startMain">
+              شروع آزمون اصلی
+            </button>
+          </div>
+        </section>
+
+        <section id="brk" class="hidden">
+          <h2 data-i18n="normalDone">مرحله اول تمام شد</h2>
+          <p data-i18n="rewardIntro">
+            در مرحله دوم، فقط پاسخ «بله» روی امتیاز شما اثر می‌گذارد:
+          </p>
+
+          <div class="score-rules">
+            <div class="rule-card">
+              <div class="rule-value plus">+1</div>
+              <div class="rule-copy" data-i18n="rewardRuleGain">
+                اگر دایره‌ی شکسته واقعاً وجود داشته باشد و پاسخ «بله» بدهید، ۱
+                امتیاز می‌گیرید.
+              </div>
+            </div>
+
+            <div class="rule-card">
+              <div class="rule-value minus">-1</div>
+              <div class="rule-copy" data-i18n="rewardRuleLoss">
+                اگر دایره‌ی شکسته وجود نداشته باشد اما پاسخ «بله» بدهید، ۱ امتیاز
+                از دست می‌دهید.
+              </div>
+            </div>
+          </div>
+
+          <div class="note" data-i18n-html="rewardGoal">
+            <b>هدف:</b> تا پایان این مرحله بیشترین امتیاز ممکن را کسب کنید. پاسخ
+            صحیح و امتیاز فعلی در طول آزمون نمایش داده نمی‌شود.
+          </div>
+
           <div class="center">
-            <button id="reward" class="primary" data-i18n="startReward">
-              شروع پاداش/تنبیه
+            <button id="startReward" class="primary" data-i18n="startReward">
+              شروع مرحله دوم
             </button>
           </div>
         </section>
 
         <section id="res" class="hidden">
           <h2 data-i18n="resultsTitle">نتایج</h2>
-          <div id="tables"></div>
-          <div id="interp" class="note"></div>
-          <p id="score"></p>
-          <p class="muted" data-i18n="boundaryNote">
-            اگر H یا F دقیقاً ۰ یا ۱ باشد، برای محاسبه Z از اصلاح مرزی 0.5/N
-            استفاده شده است تا d′ و c نامتناهی نشوند. نرخ خام در جدول حفظ
-            می‌شود.
-          </p>
-          <div class="center">
+
+          <div id="resultHero" class="result-hero"></div>
+
+          <div class="comparison-box">
+            <div class="comparison-title" data-i18n="comparisonTitle">
+              تغییرات مرحله دوم نسبت به مرحله اول
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-name" data-i18n="hitRateLabel">نرخ تشخیص درست</div>
+              <div id="hitRateValues" class="comparison-values"></div>
+              <div id="hitRateChange" class="comparison-change"></div>
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-name" data-i18n="faRateLabel">درصد پاسخ «بله» اشتباه</div>
+              <div id="faRateValues" class="comparison-values"></div>
+              <div id="faRateChange" class="comparison-change"></div>
+            </div>
+
+            <div class="comparison-row">
+              <div class="comparison-name" data-i18n="rtLabel">میانگین زمان پاسخ</div>
+              <div id="rtValues" class="comparison-values"></div>
+              <div id="rtChange" class="comparison-change"></div>
+            </div>
+          </div>
+
+
+
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="metric-label" data-i18n="criterionCard">معیار تصمیم (c)</div>
+              <div id="criterionValue" class="metric-value"></div>
+              <div id="criterionDelta" class="metric-delta"></div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label" data-i18n="sensitivityCard">حساسیت ادراکی (d′)</div>
+              <div id="sensitivityValue" class="metric-value"></div>
+              <div id="sensitivityDelta" class="metric-delta"></div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-label" data-i18n="scoreCard">امتیاز مرحله دوم</div>
+              <div id="scoreValue" class="metric-value"></div>
+              <div id="scoreScale" class="metric-delta">حداکثر ممکن: ۵</div>
+            </div>
+          </div>
+
+          <details>
+            <summary data-i18n="detailsSummary">مشاهده جزئیات محاسبات</summary>
+            <div class="details-body">
+              <div id="tables"></div>
+              <p class="muted" data-i18n="boundaryNote">
+                اگر H یا F دقیقاً ۰ یا ۱ باشد، برای محاسبه Z از اصلاح مرزی 0.5/N
+                استفاده شده است تا d′ و c نامتناهی نشوند. نرخ خام در جدول حفظ
+                می‌شود.
+              </p>
+            </div>
+          </details>
+
+          <div class="result-actions">
             <button id="csv1" class="primary" data-i18n="downloadTrials">
               دانلود داده‌های trial-by-trial
             </button>
             <button id="csv2" data-i18n="downloadSummary">
               دانلود خلاصه محاسبات
             </button>
+            <button id="restart" data-i18n="restart">شروع دوباره آزمایش</button>
+            <button id="advancedFromResults" class="advanced-button" data-i18n="advancedFromResults">
+              اجرای نسخه پیشرفته
+            </button>
           </div>
         </section>
       </div>
     </main>
+
     <script>
       (() => {
         const translations = {
           fa: {
             documentTitle: "آزمایش SDT",
-            switchLabel: "English",
-            introTitle: "آزمایش خانگی نظریه تشخیص سیگنال",
+            introTitle: "آزمایش تشخیص سیگنال",
             introBody:
-              "در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها یک <b>شکاف کوچک</b> دارد و گاهی همه کامل‌اند. بعد از ناپدید شدن تصویر بگویید «هست» یا «نیست».",
+              'در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها شکسته است و یک <b>شکاف کوچک</b> دارد و گاهی همه‌ی دایره‌ها کامل‌اند. پس از ناپدید شدن تصویر، پاسخ دهید «بله» یا «خیر».',
             introStructure:
-              "ساختار: ۲ کوشش تمرینی + ۱۰ کوشش حالت عادی + ۱۰ کوشش پاداش/تنبیه. در هر مرحله اصلی دقیقاً ۵ Signal و ۵ Noise وجود دارد.",
+              "ابتدا ۴ کوشش تمرینی انجام می‌دهید. سپس دو مرحله‌ی ۱۰ کوششی خواهید داشت.",
+            advancedModeNote:
+              "نسخه پیشرفته: دایره، مربع و مثلث | ۱۵ کوشش در هر مرحله",
+            startAdvanced: "نسخه پیشرفته و سخت‌تر",
+            advancedFromResults: "اجرای نسخه پیشرفته",
+            advancedQuestion: "آیا شکل شکسته‌ای وجود داشت؟",
+            advancedReadyBody:
+              "تمرین نسخه پیشرفته تمام شد. در آزمون اصلی، دایره‌ها، مربع‌ها و مثلث‌ها به‌صورت ترکیبی نمایش داده می‌شوند. وقتی آماده بودید، مرحله اول را شروع کنید.",
+            advancedRewardIntro:
+              "در مرحله دوم نسخه پیشرفته، فقط پاسخ «بله» روی امتیاز شما اثر می‌گذارد:",
+            advancedRewardRuleGain:
+              "اگر درست تشخیص دهید که یک شکل شکسته وجود دارد، ۱ امتیاز می‌گیرید.",
+            advancedRewardRuleLoss:
+              "اگر به اشتباه فکر کنید یک شکل شکسته وجود دارد، ۱ امتیاز از دست می‌دهید.",
+            advancedSignalPresent: "شکل شکسته وجود داشت",
+            advancedSignalAbsent: "شکل شکسته وجود نداشت",
             introNote:
               "در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود ۱.۱ ثانیه نمایش داده می‌شود.",
             startPractice: "شروع تمرین",
             question: "آیا دایره‌ی شکسته وجود داشت؟",
-            yes: "هست",
-            no: "نیست",
-            keys: "کلید Y = هست، کلید N = نیست",
-            normalDone: "مرحله عادی تمام شد",
-            rewardRuleIntro: "در مرحله دوم قانون امتیاز چنین است:",
-            outcomeHeader: "نتیجه",
-            scoreHeader: "امتیاز",
+            yes: "بله",
+            no: "خیر",
+                        practiceDone: "تمرین تمام شد",
+            readyBody:
+              "حالا با روند کار آشنا هستید. در آزمون اصلی بعد از هر پاسخ بازخوردی دریافت نمی‌کنید. وقتی آماده بودید، آزمون اصلی را شروع کنید.",
+                        startMain: "شروع آزمون اصلی",
+            normalDone: "مرحله اول تمام شد",
+            rewardIntro:
+              "در مرحله دوم، فقط پاسخ «بله» روی امتیاز شما اثر می‌گذارد:",
+            rewardRuleGain:
+              "اگر درست تشخیص دهید که دایره‌ی شکسته وجود دارد، ۱ امتیاز می‌گیرید.",
+            rewardRuleLoss:
+              "اگر به اشتباه فکر کنید دایره‌ی شکسته وجود دارد، ۱ امتیاز از دست می‌دهید.",
             rewardGoal:
-              "<b>هدف:</b> بیشترین امتیاز ممکن را بگیرید. پاسخ درست و امتیاز جاری تا پایان نمایش داده نمی‌شود.",
-            startReward: "شروع پاداش/تنبیه",
+              '<b>هدف:</b> تا پایان این مرحله بیشترین امتیاز ممکن را کسب کنید. پاسخ صحیح و امتیاز فعلی در طول آزمون نمایش داده نمی‌شود.',
+            startReward: "شروع مرحله دوم",
             resultsTitle: "نتایج",
+            criterionCard: "معیار تصمیم (c)",
+            sensitivityCard: "حساسیت ادراکی (d′)",
+            scoreCard: "امتیاز مرحله دوم",
+            scoreScale: "حداکثر ممکن: ۵",
+            comparisonTitle: "تغییرات مرحله دوم نسبت به مرحله اول",
+            hitRateLabel: "نرخ تشخیص درست",
+            faRateLabel: "درصد پاسخ «بله» اشتباه",
+            rtLabel: "میانگین زمان پاسخ",
+            detailsSummary: "مشاهده جزئیات محاسبات",
             boundaryNote:
               "اگر H یا F دقیقاً ۰ یا ۱ باشد، برای محاسبه Z از اصلاح مرزی 0.5/N استفاده شده است تا d′ و c نامتناهی نشوند. نرخ خام در جدول حفظ می‌شود.",
             downloadTrials: "دانلود داده‌های trial-by-trial",
             downloadSummary: "دانلود خلاصه محاسبات",
+            restart: "شروع دوباره آزمایش",
             practice: "تمرین",
-            normal: "حالت عادی",
-            reward: "پاداش/تنبیه",
+            normal: "مرحله اول",
+            reward: "مرحله دوم",
             trialOf: (n, total) => `کوشش ${n} از ${total}`,
-            practiceCorrect: "تمرین: درست",
-            practiceIncorrect: "تمرین: نادرست",
-            normalTable: "حالت عادی",
-            rewardTable: "پاداش/تنبیه",
-            signalPresent: "Signal Present",
-            signalAbsent: "Signal Absent",
-            respondYes: "Respond Yes",
-            respondNo: "Respond No",
-            conservative: (a, b, dc) =>
-              `c از ${a} به ${b} رسید (Δc=${dc}): معیار شما <b>محافظه‌کارانه‌تر</b> شد.`,
-            liberal: (a, b, dc) =>
-              `c از ${a} به ${b} رسید (Δc=${dc}): معیار شما <b>لیبرال‌تر</b> شد.`,
-            littleChange: (dc) => `Δc=${dc}: تغییر معیار بسیار کوچک بود.`,
-            finalScore: (score) => `امتیاز نهایی مرحله پاداش/تنبیه: ${score}`,
+            practiceCorrect: "✓ درست",
+            practiceIncorrect: "✕ نادرست",
+            normalTable: "مرحله اول",
+            rewardTable: "مرحله دوم",
+            signalPresent: "دایره شکسته وجود داشت",
+            signalAbsent: "دایره شکسته وجود نداشت",
+            respondYes: "پاسخ «بله»",
+            respondNo: "پاسخ «خیر»",
+            heroConservative:
+              "در مرحله دوم، معیار تصمیم شما محافظه‌کارانه‌تر شد.",
+            heroLiberal:
+              "در مرحله دوم، معیار تصمیم شما کمی لیبرال‌تر شد.",
+            heroStable:
+              "معیار تصمیم شما بین دو مرحله تقریباً بدون تغییر ماند.",
+            heroConservativeBody:
+              "یعنی در مرحله دوم برای پاسخ «بله» به شواهد بیشتری نیاز داشتید.",
+            heroLiberalBody:
+              "یعنی در مرحله دوم آمادگی بیشتری برای پاسخ «بله» نشان دادید.",
+            heroStableBody:
+              "یعنی شیوه‌ی تصمیم‌گیری شما در دو مرحله بسیار مشابه بود.",
+            increased: (d) => `افزایش ${d}`,
+            decreased: (d) => `کاهش ${d}`,
+            unchanged: "تقریباً بدون تغییر",
+            faster: (ms) => `${ms} ms سریع‌تر`,
+            slower: (ms) => `${ms} ms کندتر`,
+            rtSame: "تقریباً بدون تغییر",
           },
+
           en: {
             documentTitle: "SDT Experiment",
-            switchLabel: "فارسی",
-            introTitle: "Home Signal Detection Theory Experiment",
+            introTitle: "Signal Detection Experiment",
             introBody:
-              "On each trial, you will see a 6×6 grid of circles. Sometimes one circle contains a <b>small gap</b>, and sometimes all circles are complete. After the image disappears, respond “Present” or “Absent”.",
+              'On each trial, you will see a 6×6 grid of circles. Sometimes one circle is broken and contains a <b>small gap</b>; other times, all circles are complete. After the image disappears, answer “Yes” or “No”.',
             introStructure:
-              "Structure: 2 practice trials + 10 normal trials + 10 reward/punishment trials. Each main block contains exactly 5 Signal and 5 Noise trials.",
+              "You will begin with 4 practice trials, followed by two 10-trial blocks.",
+            advancedModeNote:
+              "Advanced mode: circles, squares, and triangles | 15 trials per block",
+            startAdvanced: "Advanced / harder version",
+            advancedFromResults: "Run advanced version",
+            advancedQuestion: "Was there a broken shape?",
+            advancedReadyBody:
+              "Advanced practice is complete. In the main experiment, circles, squares, and triangles will be mixed across trials. Start the first block when you are ready.",
+            advancedRewardIntro:
+              "In the second advanced block, only “Yes” responses affect your score:",
+            advancedRewardRuleGain:
+              "If you correctly detect that a broken shape is present, you gain 1 point.",
+            advancedRewardRuleLoss:
+              "If you incorrectly think a broken shape is present, you lose 1 point.",
+            advancedSignalPresent: "Broken shape present",
+            advancedSignalAbsent: "Broken shape absent",
             introNote:
               "Use the same device and keep viewing distance and brightness as constant as possible. The image is shown for about 1.1 seconds.",
             startPractice: "Start practice",
             question: "Was there a broken circle?",
-            yes: "Present",
-            no: "Absent",
-            keys: "Y = Present, N = Absent",
-            normalDone: "Normal block completed",
-            rewardRuleIntro: "In the second block, the scoring rule is:",
-            outcomeHeader: "Outcome",
-            scoreHeader: "Score",
+            yes: "Yes",
+            no: "No",
+                        practiceDone: "Practice complete",
+            readyBody:
+              "You are now familiar with the task. During the main experiment, you will not receive feedback after each response. Start when you feel ready.",
+                        startMain: "Start main experiment",
+            normalDone: "First block complete",
+            rewardIntro:
+              "In the second block, only “Yes” responses affect your score:",
+            rewardRuleGain:
+              "If you correctly detect that a broken circle is present, you gain 1 point.",
+            rewardRuleLoss:
+              "If you incorrectly think a broken circle is present, you lose 1 point.",
             rewardGoal:
-              "<b>Goal:</b> Earn the highest possible score. The correct answer and your running score will not be shown until the end.",
-            startReward: "Start reward/punishment block",
+              '<b>Goal:</b> Earn the highest possible score by the end of this block. The correct answer and your running score will not be shown during the task.',
+            startReward: "Start second block",
             resultsTitle: "Results",
+            criterionCard: "Decision criterion (c)",
+            sensitivityCard: "Perceptual sensitivity (d′)",
+            scoreCard: "Second-block score",
+            scoreScale: "Maximum possible: 5",
+            comparisonTitle: "How the second block changed relative to the first",
+            hitRateLabel: "Correct detection rate",
+            faRateLabel: "Incorrect “Yes” response rate",
+            rtLabel: "Mean response time",
+            detailsSummary: "View detailed calculations",
             boundaryNote:
-              "If H or F is exactly 0 or 1, a 0.5/N boundary correction is used for the Z transformation so that d′ and c do not become infinite. Raw rates are still shown in the table.",
+              "If H or F is exactly 0 or 1, a 0.5/N boundary correction is used for the Z transformation so that d′ and c remain finite. Raw rates are still shown in the table.",
             downloadTrials: "Download trial-by-trial data",
             downloadSummary: "Download summary calculations",
+            restart: "Restart experiment",
             practice: "Practice",
-            normal: "Normal",
-            reward: "Reward/Punishment",
+            normal: "First block",
+            reward: "Second block",
             trialOf: (n, total) => `Trial ${n} of ${total}`,
-            practiceCorrect: "Practice: Correct",
-            practiceIncorrect: "Practice: Incorrect",
-            normalTable: "Normal",
-            rewardTable: "Reward/Punishment",
-            signalPresent: "Signal Present",
-            signalAbsent: "Signal Absent",
+            practiceCorrect: "✓ Correct",
+            practiceIncorrect: "✕ Incorrect",
+            normalTable: "First block",
+            rewardTable: "Second block",
+            signalPresent: "Broken circle present",
+            signalAbsent: "Broken circle absent",
             respondYes: "Respond Yes",
             respondNo: "Respond No",
-            conservative: (a, b, dc) =>
-              `c changed from ${a} to ${b} (Δc=${dc}): your decision criterion became <b>more conservative</b>.`,
-            liberal: (a, b, dc) =>
-              `c changed from ${a} to ${b} (Δc=${dc}): your decision criterion became <b>more liberal</b>.`,
-            littleChange: (dc) =>
-              `Δc=${dc}: the change in decision criterion was very small.`,
-            finalScore: (score) => `Final reward/punishment score: ${score}`,
+            heroConservative:
+              "Your decision criterion became more conservative in the second block.",
+            heroLiberal:
+              "Your decision criterion became slightly more liberal in the second block.",
+            heroStable:
+              "Your decision criterion stayed nearly the same across the two blocks.",
+            heroConservativeBody:
+              "This means you required stronger evidence before responding “Yes” in the second block.",
+            heroLiberalBody:
+              "This means you were somewhat more willing to respond “Yes” in the second block.",
+            heroStableBody:
+              "This means your response strategy was very similar across the two blocks.",
+            increased: (d) => `increased by ${d}`,
+            decreased: (d) => `decreased by ${d}`,
+            unchanged: "almost unchanged",
+            faster: (ms) => `${ms} ms faster`,
+            slower: (ms) => `${ms} ms slower`,
+            rtSame: "almost unchanged",
           },
         };
 
+        const FIX = 500;
+        const STIM = 1100;
+        const G = 6;
+
+        function q(id) {
+          return document.getElementById(id);
+        }
+
+        function shuffled(items) {
+          const a = [...items];
+          for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+          }
+          return a;
+        }
+
+        function standardBlock(name) {
+          const a = [];
+          for (let i = 0; i < 5; i++) a.push({ s: 1, b: name, shape: "circle" });
+          for (let i = 0; i < 5; i++) a.push({ s: 0, b: name, shape: "circle" });
+          return shuffled(a);
+        }
+
+        function advancedBlock(name) {
+          const a = [];
+          const composition = {
+            circle: [1, 1, 1, 0, 0],
+            square: [1, 1, 1, 0, 0],
+            triangle: [1, 1, 0, 0, 0],
+          };
+
+          Object.entries(composition).forEach(([shape, signals]) => {
+            signals.forEach((s) => a.push({ s, b: name, shape }));
+          });
+
+          return shuffled(a);
+        }
+
+        function buildPractice(mode) {
+          if (mode === "advanced") {
+            return shuffled([
+              { s: 1, b: "Practice", shape: "circle" },
+              { s: 0, b: "Practice", shape: "square" },
+              { s: 1, b: "Practice", shape: "triangle" },
+              { s: 0, b: "Practice", shape: "circle" },
+            ]);
+          }
+
+          return shuffled([
+            { s: 1, b: "Practice", shape: "circle" },
+            { s: 0, b: "Practice", shape: "circle" },
+            { s: 1, b: "Practice", shape: "circle" },
+            { s: 0, b: "Practice", shape: "circle" },
+          ]);
+        }
+
+        function buildMainBlock(name, mode) {
+          return mode === "advanced"
+            ? advancedBlock(name)
+            : standardBlock(name);
+        }
+
+        let experimentMode = "standard";
+        let practice = buildPractice(experimentMode);
+        let normal = buildMainBlock("Normal", experimentMode);
+        let reward = buildMainBlock("Reward", experimentMode);
+
         let currentLanguage = "fa";
+        let phase = "practice";
+        let arr = practice;
+        let i = 0;
+        let data = [];
+        let t0 = 0;
+        let summary = null;
+
+        const intro = q("intro");
+        const task = q("task");
+        const ready = q("ready");
+        const brk = q("brk");
+        const res = q("res");
+        const fix = q("fix");
+        const cv = q("cv");
+        const ask = q("ask");
+        const prog = q("prog");
+        const progressFill = q("progressFill");
+        const practiceFeedback = q("practiceFeedback");
+        const ctx = cv.getContext("2d");
 
         function applyLanguage(lang) {
           currentLanguage = lang;
           const t = translations[lang];
+
           document.documentElement.lang = lang;
           document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
           document.title = t.documentTitle;
@@ -650,66 +1186,79 @@
             if (typeof t[key] === "string") el.innerHTML = t[key];
           });
 
-          q("switchLanguage").textContent = t.switchLabel;
+          q("langFa").classList.toggle("active", lang === "fa");
+          q("langEn").classList.toggle("active", lang === "en");
 
-          // LANGUAGE-EDIT: refresh dynamic text too if language changes mid-experiment.
-          if (!q("task").classList.contains("hidden")) updateProgressText();
-          if (summary)
-            renderResults(summary.a, summary.b, summary.dc, summary.sc);
+          updateModeText();
+          if (!task.classList.contains("hidden")) updateProgress();
+          if (summary) renderResults(summary);
+        }
+
+        function updateModeText() {
+          const t = translations[currentLanguage];
+          const advanced = experimentMode === "advanced";
+
+          q("ask").querySelector("[data-i18n=\"question\"]").textContent = advanced ? t.advancedQuestion : t.question;
+          q("ready").querySelector("[data-i18n='readyBody']").textContent =
+            advanced ? t.advancedReadyBody : t.readyBody;
+          q("brk").querySelector("[data-i18n='rewardIntro']").textContent =
+            advanced ? t.advancedRewardIntro : t.rewardIntro;
+          q("brk").querySelector("[data-i18n='rewardRuleGain']").textContent =
+            advanced ? t.advancedRewardRuleGain : t.rewardRuleGain;
+          q("brk").querySelector("[data-i18n='rewardRuleLoss']").textContent =
+            advanced ? t.advancedRewardRuleLoss : t.rewardRuleLoss;
+        }
+
+        function resetExperiment(mode) {
+          experimentMode = mode;
+          phase = "practice";
+          i = 0;
+          data = [];
+          summary = null;
+
+          practice = buildPractice(mode);
+          normal = buildMainBlock("Normal", mode);
+          reward = buildMainBlock("Reward", mode);
+          arr = practice;
+
+          intro.classList.add("hidden");
+          ready.classList.add("hidden");
+          brk.classList.add("hidden");
+          res.classList.add("hidden");
+          task.classList.remove("hidden");
+          practiceFeedback.classList.add("hidden");
+          practiceFeedback.classList.remove("correct", "incorrect");
+
+          updateModeText();
+          run();
         }
 
         function chooseLanguage(lang) {
           applyLanguage(lang);
           q("languageGate").classList.add("hidden");
-          q("languageSwitcher").classList.remove("hidden");
-          q("intro").classList.remove("hidden");
+          q("topbar").classList.remove("hidden");
+          intro.classList.remove("hidden");
         }
 
         q("chooseFa").onclick = () => chooseLanguage("fa");
         q("chooseEn").onclick = () => chooseLanguage("en");
-        q("switchLanguage").onclick = () =>
-          applyLanguage(currentLanguage === "fa" ? "en" : "fa");
-        // LANGUAGE-EDIT: END
-        const FIX = 500,
-          STIM = 1100,
-          G = 6;
-        const practice = [{ s: 1 }, { s: 0 }];
-        function block(name) {
-          let a = [];
-          for (let i = 0; i < 5; i++) a.push({ s: 1, b: name });
-          for (let i = 0; i < 5; i++) a.push({ s: 0, b: name });
-          for (let i = a.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-          }
-          return a;
-        }
-        const normal = block("Normal"),
-          reward = block("Reward");
-        let phase = "practice",
-          arr = practice,
-          i = 0,
-          data = [],
-          t0 = 0,
-          summary = null;
-        const intro = q("intro"),
-          task = q("task"),
-          brk = q("brk"),
-          res = q("res"),
-          fix = q("fix"),
-          cv = q("cv"),
-          ask = q("ask"),
-          prog = q("prog"),
-          ctx = cv.getContext("2d");
-        function q(x) {
-          return document.getElementById(x);
-        }
-        q("start").onclick = () => {
-          intro.classList.add("hidden");
+        q("langFa").onclick = () => applyLanguage("fa");
+        q("langEn").onclick = () => applyLanguage("en");
+
+        q("startPractice").onclick = () => resetExperiment("standard");
+        q("startAdvanced").onclick = () => resetExperiment("advanced");
+        q("advancedFromResults").onclick = () => resetExperiment("advanced");
+
+        q("startMain").onclick = () => {
+          ready.classList.add("hidden");
           task.classList.remove("hidden");
+          phase = "normal";
+          arr = normal;
+          i = 0;
           run();
         };
-        q("reward").onclick = () => {
+
+        q("startReward").onclick = () => {
           brk.classList.add("hidden");
           task.classList.remove("hidden");
           phase = "reward";
@@ -717,41 +1266,46 @@
           i = 0;
           run();
         };
+
+        q("restart").onclick = () => window.location.reload();
+
         document
           .querySelectorAll(".resp")
           .forEach((b) => (b.onclick = () => respond(+b.dataset.r)));
+
         document.addEventListener("keydown", (e) => {
           if (!ask.classList.contains("hidden")) {
-            if (e.key.toLowerCase() == "y") respond(1);
-            if (e.key.toLowerCase() == "n") respond(0);
+            if (e.key.toLowerCase() === "y") respond(1);
+            if (e.key.toLowerCase() === "n") respond(0);
           }
         });
 
-        // LANGUAGE-EDIT: phase label follows the selected language.
-        function label() {
+        function phaseLabel() {
           const t = translations[currentLanguage];
-          return phase == "practice"
-            ? t.practice
-            : phase == "normal"
-              ? t.normal
-              : t.reward;
+          if (phase === "practice") return t.practice;
+          if (phase === "normal") return t.normal;
+          return t.reward;
         }
 
-        // LANGUAGE-EDIT: extracted so switching language can refresh progress text.
-        function updateProgressText() {
+        function updateProgress() {
           const t = translations[currentLanguage];
-          prog.textContent = `${label()} - ${t.trialOf(i + 1, arr.length)}`;
+          prog.textContent = `${phaseLabel()} | ${t.trialOf(i + 1, arr.length)}`;
+          progressFill.style.width = `${((i + 1) / arr.length) * 100}%`;
         }
+
         function run() {
           ask.classList.add("hidden");
           cv.classList.add("hidden");
           fix.classList.remove("hidden");
-          // LANGUAGE-EDIT: bilingual progress text.
-          updateProgressText();
+          practiceFeedback.classList.add("hidden");
+          practiceFeedback.classList.remove("correct", "incorrect");
+          updateProgress();
+
           setTimeout(() => {
             fix.classList.add("hidden");
             draw(arr[i]);
             cv.classList.remove("hidden");
+
             setTimeout(() => {
               cv.classList.add("hidden");
               ask.classList.remove("hidden");
@@ -759,6 +1313,7 @@
             }, STIM);
           }, FIX);
         }
+
         function draw(tr) {
           ctx.clearRect(0, 0, 560, 560);
           ctx.fillStyle = "#fff";
@@ -766,220 +1321,480 @@
           ctx.strokeStyle = "#111";
           ctx.lineWidth = 3;
           ctx.lineCap = "round";
-          const m = 70,
-            step = (560 - 2 * m) / (G - 1),
-            rad = 16;
-          let rr = -1,
-            cc = -1,
-            ang = 0;
+          ctx.lineJoin = "round";
+
+          const margin = 70;
+          const step = (560 - 2 * margin) / (G - 1);
+          const size = 16;
+
+          let rr = -1;
+          let cc = -1;
+          let brokenEdge = 0;
+          let ang = 0;
+
           if (tr.s) {
             rr = Math.floor(Math.random() * G);
             cc = Math.floor(Math.random() * G);
+            brokenEdge = Math.floor(Math.random() * 3);
             ang = Math.random() * Math.PI * 2;
           }
-          for (let r = 0; r < G; r++)
+
+          for (let r = 0; r < G; r++) {
             for (let c = 0; c < G; c++) {
-              let x = m + c * step,
-                y = m + r * step;
-              ctx.beginPath();
-              if (tr.s && r == rr && c == cc) {
-                let gap = (32 * Math.PI) / 180;
-                ctx.arc(x, y, rad, ang + gap / 2, ang - gap / 2 + 2 * Math.PI);
-              } else ctx.arc(x, y, rad, 0, 2 * Math.PI);
-              ctx.stroke();
+              const x = margin + c * step;
+              const y = margin + r * step;
+              const isBroken = tr.s && r === rr && c === cc;
+
+              if (tr.shape === "square") {
+                drawPolygon(squarePoints(x, y, size), isBroken ? brokenEdge % 4 : -1);
+              } else if (tr.shape === "triangle") {
+                drawPolygon(trianglePoints(x, y, size + 2), isBroken ? brokenEdge % 3 : -1);
+              } else {
+                drawCircle(x, y, size, isBroken, ang);
+              }
             }
+          }
         }
+
+        function drawCircle(x, y, radius, isBroken, angle) {
+          ctx.beginPath();
+          if (isBroken) {
+            const gap = (32 * Math.PI) / 180;
+            ctx.arc(
+              x,
+              y,
+              radius,
+              angle + gap / 2,
+              angle - gap / 2 + 2 * Math.PI,
+            );
+          } else {
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);
+          }
+          ctx.stroke();
+        }
+
+        function squarePoints(x, y, half) {
+          return [
+            [x - half, y - half],
+            [x + half, y - half],
+            [x + half, y + half],
+            [x - half, y + half],
+          ];
+        }
+
+        function trianglePoints(x, y, radius) {
+          return [-Math.PI / 2, -Math.PI / 2 + (2 * Math.PI) / 3, -Math.PI / 2 + (4 * Math.PI) / 3]
+            .map((a) => [x + Math.cos(a) * radius, y + Math.sin(a) * radius]);
+        }
+
+        function drawPolygon(points, brokenEdge = -1) {
+          const n = points.length;
+
+          for (let edge = 0; edge < n; edge++) {
+            const a = points[edge];
+            const b = points[(edge + 1) % n];
+
+            if (edge !== brokenEdge) {
+              ctx.beginPath();
+              ctx.moveTo(a[0], a[1]);
+              ctx.lineTo(b[0], b[1]);
+              ctx.stroke();
+              continue;
+            }
+
+            const p1 = [
+              a[0] + (b[0] - a[0]) * 0.37,
+              a[1] + (b[1] - a[1]) * 0.37,
+            ];
+            const p2 = [
+              a[0] + (b[0] - a[0]) * 0.63,
+              a[1] + (b[1] - a[1]) * 0.63,
+            ];
+
+            ctx.beginPath();
+            ctx.moveTo(a[0], a[1]);
+            ctx.lineTo(p1[0], p1[1]);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(p2[0], p2[1]);
+            ctx.lineTo(b[0], b[1]);
+            ctx.stroke();
+          }
+        }
+
         function outcome(s, y) {
-          return s && y
-            ? "Hit"
-            : s && !y
-              ? "Miss"
-              : !s && y
-                ? "False Alarm"
-                : "Correct Rejection";
+          if (s && y) return "Hit";
+          if (s && !y) return "Miss";
+          if (!s && y) return "False Alarm";
+          return "Correct Rejection";
         }
+
         function respond(y) {
           if (ask.classList.contains("hidden")) return;
           ask.classList.add("hidden");
-          let tr = arr[i],
-            out = outcome(tr.s, y),
-            b =
-              phase == "practice"
-                ? "Practice"
-                : phase == "normal"
-                  ? "Normal"
-                  : "Reward";
-          let sd =
-            b == "Reward"
-              ? out == "Hit"
+
+          const tr = arr[i];
+          const out = outcome(tr.s, y);
+          const blockName =
+            phase === "practice"
+              ? "Practice"
+              : phase === "normal"
+                ? "Normal"
+                : "Reward";
+
+          const scoreDelta =
+            blockName === "Reward"
+              ? out === "Hit"
                 ? 1
-                : out == "False Alarm"
+                : out === "False Alarm"
                   ? -1
                   : 0
               : 0;
+
           data.push({
-            block: b,
+            mode: experimentMode,
+            block: blockName,
             trial: i + 1,
+            shape: tr.shape,
             signal: tr.s,
             response: y,
             outcome: out,
             rt: Math.round(performance.now() - t0),
-            score: sd,
+            score: scoreDelta,
           });
-          if (phase == "practice") {
-            // LANGUAGE-EDIT: bilingual practice feedback.
+
+          if (phase === "practice") {
             const t = translations[currentLanguage];
-            prog.textContent =
-              tr.s == y ? t.practiceCorrect : t.practiceIncorrect;
-            setTimeout(next, 450);
-          } else setTimeout(next, 120);
+            const correct = tr.s === y;
+
+            cv.classList.add("hidden");
+            ask.classList.add("hidden");
+            fix.classList.add("hidden");
+
+            practiceFeedback.textContent =
+              correct ? t.practiceCorrect : t.practiceIncorrect;
+            practiceFeedback.classList.remove("hidden");
+            practiceFeedback.classList.toggle("correct", correct);
+            practiceFeedback.classList.toggle("incorrect", !correct);
+
+            setTimeout(next, 850);
+          } else {
+            setTimeout(next, 120);
+          }
         }
+
         function next() {
           i++;
-          if (i < arr.length) return run();
-          if (phase == "practice") {
-            phase = "normal";
-            arr = normal;
-            i = 0;
-            return run();
+
+          if (i < arr.length) {
+            run();
+            return;
           }
-          if (phase == "normal") {
-            task.classList.add("hidden");
+
+          task.classList.add("hidden");
+          progressFill.style.width = "0%";
+
+          if (phase === "practice") {
+            updateModeText();
+            ready.classList.remove("hidden");
+            return;
+          }
+
+          if (phase === "normal") {
+            updateModeText();
             brk.classList.remove("hidden");
             return;
           }
-          task.classList.add("hidden");
+
           show();
         }
+
         function inv(p) {
           const a = [
-              -39.69683028665376, 220.9460984245205, -275.9285104469687,
-              138.357751867269, -30.66479806614716, 2.506628277459239,
-            ],
-            b = [
-              -54.47609879822406, 161.5858368580409, -155.6989798598866,
-              66.80131188771972, -13.28068155288572,
-            ],
-            c = [
-              -0.007784894002430293, -0.3223964580411365, -2.400758277161838,
-              -2.549732539343734, 4.374664141464968, 2.938163982698783,
-            ],
-            d = [
-              0.007784695709041462, 0.3224671290700398, 2.445134137142996,
-              3.754408661907416,
-            ],
-            pl = 0.02425,
-            ph = 1 - pl;
-          let q, r;
+            -39.69683028665376,
+            220.9460984245205,
+            -275.9285104469687,
+            138.357751867269,
+            -30.66479806614716,
+            2.506628277459239,
+          ];
+          const b = [
+            -54.47609879822406,
+            161.5858368580409,
+            -155.6989798598866,
+            66.80131188771972,
+            -13.28068155288572,
+          ];
+          const c = [
+            -0.007784894002430293,
+            -0.3223964580411365,
+            -2.400758277161838,
+            -2.549732539343734,
+            4.374664141464968,
+            2.938163982698783,
+          ];
+          const d = [
+            0.007784695709041462,
+            0.3224671290700398,
+            2.445134137142996,
+            3.754408661907416,
+          ];
+          const pl = 0.02425;
+          const ph = 1 - pl;
+          let qv;
+          let rv;
+
           if (p < pl) {
-            q = Math.sqrt(-2 * Math.log(p));
+            qv = Math.sqrt(-2 * Math.log(p));
             return (
-              (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q +
+              (((((c[0] * qv + c[1]) * qv + c[2]) * qv + c[3]) * qv + c[4]) *
+                qv +
                 c[5]) /
-              ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+              ((((d[0] * qv + d[1]) * qv + d[2]) * qv + d[3]) * qv + 1)
             );
           }
+
           if (p > ph) {
-            q = Math.sqrt(-2 * Math.log(1 - p));
+            qv = Math.sqrt(-2 * Math.log(1 - p));
             return (
               -(
-                ((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q +
+                ((((c[0] * qv + c[1]) * qv + c[2]) * qv + c[3]) * qv + c[4]) *
+                  qv +
                 c[5]
               ) /
-              ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+              ((((d[0] * qv + d[1]) * qv + d[2]) * qv + d[3]) * qv + 1)
             );
           }
-          q = p - 0.5;
-          r = q * q;
+
+          qv = p - 0.5;
+          rv = qv * qv;
+
           return (
-            ((((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r +
+            ((((((a[0] * rv + a[1]) * rv + a[2]) * rv + a[3]) * rv + a[4]) *
+              rv +
               a[5]) *
-              q) /
-            (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+              qv) /
+            (((((b[0] * rv + b[1]) * rv + b[2]) * rv + b[3]) * rv + b[4]) *
+              rv +
+              1)
           );
         }
-        function met(bn) {
-          let dta = data.filter((x) => x.block == bn),
-            h = dta.filter((x) => x.outcome == "Hit").length,
-            m = dta.filter((x) => x.outcome == "Miss").length,
-            fa = dta.filter((x) => x.outcome == "False Alarm").length,
-            cr = dta.filter((x) => x.outcome == "Correct Rejection").length,
-            nS = h + m,
-            nN = fa + cr,
-            H = h / nS,
-            F = fa / nN,
-            Hz = H,
-            Fz = F,
-            corr = false;
-          if (H == 1) {
+
+        function met(blockName) {
+          const dta = data.filter((x) => x.block === blockName);
+          const h = dta.filter((x) => x.outcome === "Hit").length;
+          const m = dta.filter((x) => x.outcome === "Miss").length;
+          const fa = dta.filter((x) => x.outcome === "False Alarm").length;
+          const cr = dta.filter((x) => x.outcome === "Correct Rejection").length;
+
+          const nS = h + m;
+          const nN = fa + cr;
+          const H = h / nS;
+          const F = fa / nN;
+
+          let Hz = H;
+          let Fz = F;
+          let corr = false;
+
+          if (H === 1) {
             Hz = 1 - 0.5 / nS;
             corr = true;
           }
-          if (H == 0) {
+          if (H === 0) {
             Hz = 0.5 / nS;
             corr = true;
           }
-          if (F == 1) {
+          if (F === 1) {
             Fz = 1 - 0.5 / nN;
             corr = true;
           }
-          if (F == 0) {
+          if (F === 0) {
             Fz = 0.5 / nN;
             corr = true;
           }
-          let zH = inv(Hz),
-            zF = inv(Fz);
-          return { h, m, fa, cr, H, F, dp: zH - zF, c: -0.5 * (zH + zF), corr };
+
+          const zH = inv(Hz);
+          const zF = inv(Fz);
+          const rtData = dta.map((x) => x.rt).filter(Number.isFinite);
+          const avgRt =
+            rtData.length > 0
+              ? rtData.reduce((sum, value) => sum + value, 0) / rtData.length
+              : NaN;
+
+          return {
+            h,
+            m,
+            fa,
+            cr,
+            H,
+            F,
+            dp: zH - zF,
+            c: -0.5 * (zH + zF),
+            corr,
+            avgRt,
+          };
         }
+
         function f(x) {
           return Number.isFinite(x) ? x.toFixed(2) : "-";
         }
-        // LANGUAGE-EDIT: result-table labels are bilingual; numeric values are unchanged.
+
+        function percent(x) {
+          return Number.isFinite(x) ? `${Math.round(x * 100)}%` : "-";
+        }
+
+        function signed(x, digits = 2) {
+          if (!Number.isFinite(x)) return "-";
+          const n = Number(x.toFixed(digits));
+          return n > 0 ? `+${n.toFixed(digits)}` : n.toFixed(digits);
+        }
+
+        function changeLabel(delta, formatter = f) {
+          const t = translations[currentLanguage];
+          if (Math.abs(delta) < 0.0001) return t.unchanged;
+          return delta > 0
+            ? t.increased(formatter(Math.abs(delta)))
+            : t.decreased(formatter(Math.abs(delta)));
+        }
+
+        function rtChangeLabel(a, b) {
+          const t = translations[currentLanguage];
+          const delta = b - a;
+          if (!Number.isFinite(delta) || Math.abs(delta) < 10) return t.rtSame;
+          const ms = Math.round(Math.abs(delta));
+          return delta < 0 ? t.faster(ms) : t.slower(ms);
+        }
+
         function tab(title, m) {
           const t = translations[currentLanguage];
-          return `<h3>${title}</h3><table><tr><th></th><th>${t.signalPresent}</th><th>${t.signalAbsent}</th></tr><tr><th>${t.respondYes}</th><td>Hit = ${m.h}</td><td>False Alarm = ${m.fa}</td></tr><tr><th>${t.respondNo}</th><td>Miss = ${m.m}</td><td>Correct Rejection = ${m.cr}</td></tr></table><table><tr><th>H</th><th>F</th><th>d′</th><th>c</th></tr><tr><td>${f(m.H)}</td><td>${f(m.F)}</td><td>${f(m.dp)}</td><td>${f(m.c)}</td></tr></table>`;
+          const signalPresent =
+            experimentMode === "advanced" ? t.advancedSignalPresent : t.signalPresent;
+          const signalAbsent =
+            experimentMode === "advanced" ? t.advancedSignalAbsent : t.signalAbsent;
+
+          return `
+            <h3>${title}</h3>
+            <table>
+              <tr>
+                <th></th>
+                <th>${signalPresent}</th>
+                <th>${signalAbsent}</th>
+              </tr>
+              <tr>
+                <th>${t.respondYes}</th>
+                <td>Hit = ${m.h}</td>
+                <td>False Alarm = ${m.fa}</td>
+              </tr>
+              <tr>
+                <th>${t.respondNo}</th>
+                <td>Miss = ${m.m}</td>
+                <td>Correct Rejection = ${m.cr}</td>
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <th>H</th>
+                <th>F</th>
+                <th>d′</th>
+                <th>c</th>
+                <th>Mean RT</th>
+              </tr>
+              <tr>
+                <td>${f(m.H)}</td>
+                <td>${f(m.F)}</td>
+                <td>${f(m.dp)}</td>
+                <td>${f(m.c)}</td>
+                <td>${Math.round(m.avgRt)} ms</td>
+              </tr>
+            </table>
+          `;
         }
-        // LANGUAGE-EDIT: calculations are unchanged; only result rendering is bilingual.
-        function renderResults(a, b, dc, sc) {
+
+        function renderResults(s) {
           const t = translations[currentLanguage];
-          q("tables").innerHTML = tab(t.normalTable, a) + tab(t.rewardTable, b);
-          q("interp").innerHTML =
-            dc > 0.05
-              ? t.conservative(f(a.c), f(b.c), f(dc))
-              : dc < -0.05
-                ? t.liberal(f(a.c), f(b.c), f(dc))
-                : t.littleChange(f(dc));
-          q("score").textContent = t.finalScore(sc);
+          const { a, b, dc, ddp, dH, dF, sc } = s;
+
+          let heroTitle;
+          let heroBody;
+
+          if (dc > 0.05) {
+            heroTitle = t.heroConservative;
+            heroBody = t.heroConservativeBody;
+          } else if (dc < -0.05) {
+            heroTitle = t.heroLiberal;
+            heroBody = t.heroLiberalBody;
+          } else {
+            heroTitle = t.heroStable;
+            heroBody = t.heroStableBody;
+          }
+
+          q("resultHero").innerHTML = `<h3>${heroTitle}</h3><p>${heroBody}</p>`;
+
+          q("criterionValue").textContent = `${f(a.c)} → ${f(b.c)}`;
+          q("criterionDelta").textContent = `Δc = ${signed(dc)}`;
+
+          q("sensitivityValue").textContent = `${f(a.dp)} → ${f(b.dp)}`;
+          q("sensitivityDelta").textContent = `Δd′ = ${signed(ddp)}`;
+
+          q("scoreValue").textContent = String(sc);
+          q("scoreScale").textContent =
+            currentLanguage === "fa"
+              ? `حداکثر ممکن: ${b.h + b.m}`
+              : `Maximum possible: ${b.h + b.m}`;
+
+          q("hitRateValues").textContent = `${percent(a.H)} → ${percent(b.H)}`;
+          q("hitRateChange").textContent = changeLabel(dH, percent);
+
+          q("faRateValues").textContent = `${percent(a.F)} → ${percent(b.F)}`;
+          q("faRateChange").textContent = changeLabel(dF, percent);
+
+          q("rtValues").textContent =
+            `${Math.round(a.avgRt)} ms → ${Math.round(b.avgRt)} ms`;
+          q("rtChange").textContent = rtChangeLabel(a.avgRt, b.avgRt);
+
+          q("tables").innerHTML =
+            tab(t.normalTable, a) + tab(t.rewardTable, b);
         }
 
         function show() {
-          let a = met("Normal"),
-            b = met("Reward"),
-            dc = b.c - a.c,
-            sc = data
-              .filter((x) => x.block == "Reward")
-              .reduce((s, x) => s + x.score, 0);
-          summary = { a, b, dc, sc };
-          renderResults(a, b, dc, sc);
+          const a = met("Normal");
+          const b = met("Reward");
+          const dc = b.c - a.c;
+          const ddp = b.dp - a.dp;
+          const dH = b.H - a.H;
+          const dF = b.F - a.F;
+          const sc = data
+            .filter((x) => x.block === "Reward")
+            .reduce((sum, x) => sum + x.score, 0);
+
+          summary = { a, b, dc, ddp, dH, dF, sc };
+          renderResults(summary);
           res.classList.remove("hidden");
         }
-        function esc(v) {
-          return `"${String(v).replace(/"/g, '""')}"`;
+
+        function esc(value) {
+          return `"${String(value).replace(/"/g, '""')}"`;
         }
+
         function dl(name, rows) {
-          let s = "\uFEFF" + rows.map((r) => r.map(esc).join(",")).join("\n"),
-            blob = new Blob([s], { type: "text/csv;charset=utf-8" }),
-            a = document.createElement("a");
+          const csv =
+            "\uFEFF" + rows.map((r) => r.map(esc).join(",")).join("\n");
+          const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+          const a = document.createElement("a");
           a.href = URL.createObjectURL(blob);
           a.download = name;
           a.click();
           setTimeout(() => URL.revokeObjectURL(a.href), 1000);
         }
+
         q("csv1").onclick = () => {
-          let rows = [
+          const rows = [
             [
+              "mode",
               "block",
               "trial",
+              "shape",
               "signal_present",
               "response_yes",
               "outcome",
@@ -987,25 +1802,32 @@
               "score_delta",
             ],
           ];
+
           data
-            .filter((x) => x.block != "Practice")
-            .forEach((x) =>
+            .filter((x) => x.block !== "Practice")
+            .forEach((x) => {
               rows.push([
+                x.mode,
                 x.block,
                 x.trial,
+                x.shape,
                 x.signal,
                 x.response,
                 x.outcome,
                 x.rt,
                 x.score,
-              ]),
-            );
+              ]);
+            });
+
           dl("SDT_trial_data.csv", rows);
         };
+
         q("csv2").onclick = () => {
-          let { a, b, dc, sc } = summary;
+          const { a, b, dc, ddp, dH, dF, sc } = summary;
+
           dl("SDT_summary.csv", [
             [
+              "mode",
               "block",
               "Hit",
               "Miss",
@@ -1015,12 +1837,43 @@
               "FA_Rate",
               "d_prime",
               "c",
+              "avg_rt_ms",
               "boundary_correction",
             ],
-            ["Normal", a.h, a.m, a.fa, a.cr, a.H, a.F, a.dp, a.c, a.corr],
-            ["Reward", b.h, b.m, b.fa, b.cr, b.H, b.F, b.dp, b.c, b.corr],
+            [
+              experimentMode,
+              "Normal",
+              a.h,
+              a.m,
+              a.fa,
+              a.cr,
+              a.H,
+              a.F,
+              a.dp,
+              a.c,
+              a.avgRt,
+              a.corr,
+            ],
+            [
+              experimentMode,
+              "Reward",
+              b.h,
+              b.m,
+              b.fa,
+              b.cr,
+              b.H,
+              b.F,
+              b.dp,
+              b.c,
+              b.avgRt,
+              b.corr,
+            ],
             [],
             ["delta_c", dc],
+            ["delta_d_prime", ddp],
+            ["delta_hit_rate", dH],
+            ["delta_fa_rate", dF],
+            ["delta_avg_rt_ms", b.avgRt - a.avgRt],
             ["reward_score", sc],
           ]);
         };
