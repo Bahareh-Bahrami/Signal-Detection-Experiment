@@ -10,7 +10,8 @@
             advancedModeNote:
               "نسخه پیشرفته: دایره، مربع و مثلث | ۱۵ کوشش در هر مرحله",
             startAdvanced: "نسخه پیشرفته و سخت‌تر",
-            advancedFromResults: "اجرای نسخه پیشرفته",
+            advancedFromResults: "اجرای آزمون سخت‌تر",
+            standardFromResults: "اجرای آزمون ساده‌تر",
             advancedQuestion: "آیا شکل شکسته‌ای وجود داشت؟",
             advancedReadyBody:
               "تمرین نسخه پیشرفته تمام شد. در آزمون اصلی، دایره‌ها، مربع‌ها و مثلث‌ها به‌صورت ترکیبی نمایش داده می‌شوند. وقتی آماده بودید، مرحله اول را شروع کنید.",
@@ -23,7 +24,7 @@
             advancedSignalPresent: "شکل شکسته وجود داشت",
             advancedSignalAbsent: "شکل شکسته وجود نداشت",
             introNote:
-              "در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود ۱.۱ ثانیه نمایش داده می‌شود.",
+              "در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود ۱ ثانیه نمایش داده می‌شود.",
             startPractice: "شروع تمرین",
             question: "آیا دایره‌ی شکسته وجود داشت؟",
             yes: "بله",
@@ -99,7 +100,8 @@
             advancedModeNote:
               "Advanced mode: circles, squares, and triangles | 15 trials per block",
             startAdvanced: "Advanced / harder version",
-            advancedFromResults: "Run advanced version",
+            advancedFromResults: "Run harder version",
+            standardFromResults: "Run easier version",
             advancedQuestion: "Was there a broken shape?",
             advancedReadyBody:
               "Advanced practice is complete. In the main experiment, circles, squares, and triangles will be mixed across trials. Start the first block when you are ready.",
@@ -112,7 +114,7 @@
             advancedSignalPresent: "Broken shape present",
             advancedSignalAbsent: "Broken shape absent",
             introNote:
-              "Use the same device and keep viewing distance and brightness as constant as possible. The image is shown for about 1.1 seconds.",
+              "Use the same device and keep viewing distance and brightness as constant as possible. The image is shown for about 1 second.",
             startPractice: "Start practice",
             question: "Was there a broken circle?",
             yes: "Yes",
@@ -180,7 +182,7 @@
         };
 
         const FIX = 500;
-        const STIM = 1100;
+        const STIM = 1000;
         const G = 6;
 
         function q(id) {
@@ -307,6 +309,9 @@
             advanced ? t.advancedRewardRuleGain : t.rewardRuleGain;
           q("brk").querySelector("[data-i18n='rewardRuleLoss']").textContent =
             advanced ? t.advancedRewardRuleLoss : t.rewardRuleLoss;
+
+          q("advancedFromResults").textContent =
+            advanced ? t.standardFromResults : t.advancedFromResults;
         }
 
         function resetExperiment(mode) {
@@ -347,7 +352,8 @@
 
         q("startPractice").onclick = () => resetExperiment("standard");
         q("startAdvanced").onclick = () => resetExperiment("advanced");
-        q("advancedFromResults").onclick = () => resetExperiment("advanced");
+        q("advancedFromResults").onclick = () =>
+          resetExperiment(experimentMode === "advanced" ? "standard" : "advanced");
 
         q("startMain").onclick = () => {
           ready.classList.add("hidden");
