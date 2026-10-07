@@ -2,15 +2,36 @@
         const translations = {
           fa: {
             documentTitle: "Signal Detection Lab | Signal or Noise?",
+            demographicsKicker: "اطلاعات اولیه",
+            demographicsIntro:
+              "پیش از شروع آزمایش، لطفا چند سؤال کوتاه را پاسخ دهید.",
+            ageLabel: "سن",
+            agePlaceholder: "مثلاً ۳۰",
+            genderLabel: "جنسیت",
+            selectPlaceholder: "انتخاب کنید",
+            genderFemale: "زن",
+            genderMale: "مرد",
+            genderNonbinary: "غیردوگانه",
+            educationLabel: "سطح تحصیلات",
+            educationHighSchool: "دیپلم یا پایین‌تر",
+            educationAssociate: "کاردانی",
+            educationBachelor: "کارشناسی",
+            educationMaster: "کارشناسی ارشد",
+            educationDoctorate: "دکتری",
+            handednessLabel: "دست برتر",
+            rightHanded: "راست‌دست",
+            leftHanded: "چپ‌دست",
+            ambidextrous: "دودست",
+            continueToExperiment: "ادامه",
+            demographicsRequired: "لطفاً همه فیلدها را تکمیل کنید.",
+            ageInvalid: "لطفاً یک سن معتبر بین ۱ تا ۱۲۰ وارد کنید.",
             introTitle: "آزمایش تشخیص سیگنال",
             introBody:
-              'در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید. گاهی یکی از دایره‌ها شکسته است و یک <b>شکاف کوچک</b> دارد و گاهی همه‌ی دایره‌ها کامل‌اند. پس از ناپدید شدن تصویر، پاسخ دهید «بله» یا «خیر».',
+              'در هر کوشش یک شبکه ۶×۶ از دایره‌ها می‌بینید، تشخیص دهید آیا یک دایره شکسته در تصویر وجود دارد یا نه.',
             introStructure:
-              "ابتدا ۴ کوشش تمرینی انجام می‌دهید. سپس دو مرحله‌ی ۱۰ کوششی خواهید داشت.",
-            advancedModeNote:
-              "نسخه پیشرفته: دایره، مربع و مثلث | ۱۵ کوشش در هر مرحله",
-            startAdvanced: "نسخه پیشرفته و سخت‌تر",
-            advancedFromResults: "اجرای آزمون سخت‌تر",
+              "ابتدا ۴ کوشش تمرین آزمایشی انجام می‌دهید. سپس دو مرحله‌ی ۱۰ کوششی خواهید داشت.",
+            startAdvanced: "نسخه پیشرفته",
+            advancedFromResults: "نسخه پیشرفته",
             standardFromResults: "اجرای آزمون ساده‌تر",
             advancedQuestion: "آیا شکل شکسته‌ای وجود داشت؟",
             advancedReadyBody:
@@ -24,14 +45,14 @@
             advancedSignalPresent: "شکل شکسته وجود داشت",
             advancedSignalAbsent: "شکل شکسته وجود نداشت",
             introNote:
-              "در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید. تصویر فقط حدود ۱ ثانیه نمایش داده می‌شود.",
+              "در یک دستگاه و با فاصله و روشنایی ثابت انجام دهید.<br>تصویر فقط حدود ۱ ثانیه نمایش داده می‌شود.",
             startPractice: "شروع تمرین",
             question: "آیا دایره‌ی شکسته وجود داشت؟",
             yes: "بله",
             no: "خیر",
                         practiceDone: "تمرین تمام شد",
             readyBody:
-              "حالا با روند کار آشنا هستید. در آزمون اصلی بعد از هر پاسخ بازخوردی دریافت نمی‌کنید. وقتی آماده بودید، آزمون اصلی را شروع کنید.",
+              "حالا با روند کار آشنا هستید. در آزمون اصلی بازخوردی دریافت نمی‌کنید.<br>وقتی آماده بودید، آزمون اصلی را شروع کنید.",
                         startMain: "شروع آزمون اصلی",
             normalDone: "مرحله اول تمام شد",
             rewardIntro:
@@ -92,15 +113,36 @@
 
           en: {
             documentTitle: "Signal Detection Lab | Signal or Noise?",
+            demographicsKicker: "Participant information",
+            demographicsIntro:
+              "Before starting the experiment, please answer a few short questions.",
+            ageLabel: "Age",
+            agePlaceholder: "e.g. 30",
+            genderLabel: "Gender",
+            selectPlaceholder: "Select an option",
+            genderFemale: "Woman",
+            genderMale: "Man",
+            genderNonbinary: "Non-binary",
+            educationLabel: "Education level",
+            educationHighSchool: "High school or below",
+            educationAssociate: "Associate degree / diploma",
+            educationBachelor: "Bachelor’s degree",
+            educationMaster: "Master’s degree",
+            educationDoctorate: "Doctorate",
+            handednessLabel: "Handedness",
+            rightHanded: "Right-handed",
+            leftHanded: "Left-handed",
+            ambidextrous: "Ambidextrous",
+            continueToExperiment: "Continue",
+            demographicsRequired: "Please complete all fields.",
+            ageInvalid: "Please enter a valid age between 1 and 120.",
             introTitle: "Signal Detection Experiment",
             introBody:
-              'On each trial, you will see a 6×6 grid of circles. Sometimes one circle is broken and contains a <b>small gap</b>; other times, all circles are complete. After the image disappears, answer “Yes” or “No”.',
+              'On each trial, you will see a 6×6 grid of circles. Decide whether a broken circle is present in the image.',
             introStructure:
               "You will begin with 4 practice trials, followed by two 10-trial blocks.",
-            advancedModeNote:
-              "Advanced mode: circles, squares, and triangles | 15 trials per block",
-            startAdvanced: "Advanced / harder version",
-            advancedFromResults: "Run harder version",
+            startAdvanced: "Advanced version",
+            advancedFromResults: "Advanced version",
             standardFromResults: "Run easier version",
             advancedQuestion: "Was there a broken shape?",
             advancedReadyBody:
@@ -256,7 +298,11 @@
         let data = [];
         let t0 = 0;
         let summary = null;
+        let demographicData = null;
 
+        const demographics = q("demographics");
+        const demographicsForm = q("demographicsForm");
+        const demographicError = q("demographicError");
         const intro = q("intro");
         const task = q("task");
         const ready = q("ready");
@@ -269,6 +315,13 @@
         const progressFill = q("progressFill");
         const practiceFeedback = q("practiceFeedback");
         const ctx = cv.getContext("2d");
+
+        try {
+          const savedDemographics = sessionStorage.getItem("sdt_demographics");
+          if (savedDemographics) demographicData = JSON.parse(savedDemographics);
+        } catch {
+          sessionStorage.removeItem("sdt_demographics");
+        }
 
         function applyLanguage(lang) {
           currentLanguage = lang;
@@ -288,8 +341,21 @@
             if (typeof t[key] === "string") el.innerHTML = t[key];
           });
 
+          document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+            const key = el.dataset.i18nPlaceholder;
+            if (typeof t[key] === "string") el.placeholder = t[key];
+          });
+
           q("langFa").classList.toggle("active", lang === "fa");
           q("langEn").classList.toggle("active", lang === "en");
+
+          if (demographicData) {
+            demographicData.language = lang;
+            sessionStorage.setItem(
+              "sdt_demographics",
+              JSON.stringify(demographicData),
+            );
+          }
 
           updateModeText();
           if (!task.classList.contains("hidden")) updateProgress();
@@ -301,7 +367,7 @@
           const advanced = experimentMode === "advanced";
 
           q("ask").querySelector("[data-i18n=\"question\"]").textContent = advanced ? t.advancedQuestion : t.question;
-          q("ready").querySelector("[data-i18n='readyBody']").textContent =
+          q("ready").querySelector("[data-i18n-html='readyBody']").innerHTML =
             advanced ? t.advancedReadyBody : t.readyBody;
           q("brk").querySelector("[data-i18n='rewardIntro']").textContent =
             advanced ? t.advancedRewardIntro : t.rewardIntro;
@@ -338,12 +404,92 @@
           run();
         }
 
+        function createParticipantId() {
+          if (window.crypto && typeof window.crypto.randomUUID === "function") {
+            return `P_${window.crypto.randomUUID().replace(/-/g, "").slice(0, 12)}`;
+          }
+
+          return `P_${Date.now().toString(36)}${Math.random()
+            .toString(36)
+            .slice(2, 8)}`;
+        }
+
+        function getParticipantId() {
+          let id = sessionStorage.getItem("sdt_participant_id");
+          if (!id) {
+            id = createParticipantId();
+            sessionStorage.setItem("sdt_participant_id", id);
+          }
+          return id;
+        }
+
+        function restoreDemographicsForm() {
+          const saved = sessionStorage.getItem("sdt_demographics");
+          if (!saved) return;
+
+          try {
+            const values = JSON.parse(saved);
+            q("age").value = values.age ?? "";
+            q("gender").value = values.gender ?? "";
+            q("education").value = values.education ?? "";
+            q("handedness").value = values.handedness ?? "";
+          } catch {
+            sessionStorage.removeItem("sdt_demographics");
+          }
+        }
+
         function chooseLanguage(lang) {
           applyLanguage(lang);
           q("languageGate").classList.add("hidden");
           q("topbar").classList.remove("hidden");
-          intro.classList.remove("hidden");
+          intro.classList.add("hidden");
+          demographics.classList.remove("hidden");
+          restoreDemographicsForm();
         }
+
+        demographicsForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const t = translations[currentLanguage];
+          const age = Number(q("age").value);
+          const gender = q("gender").value;
+          const education = q("education").value;
+          const handedness = q("handedness").value;
+
+          demographicError.classList.add("hidden");
+          demographicError.textContent = "";
+
+          if (!Number.isFinite(age) || age < 1 || age > 120) {
+            demographicError.textContent = t.ageInvalid;
+            demographicError.classList.remove("hidden");
+            q("age").focus();
+            return;
+          }
+
+          if (!gender || !education || !handedness) {
+            demographicError.textContent = t.demographicsRequired;
+            demographicError.classList.remove("hidden");
+            return;
+          }
+
+          demographicData = {
+            participant_id: getParticipantId(),
+            age,
+            gender,
+            education,
+            handedness,
+            language: currentLanguage,
+            created_at: new Date().toISOString(),
+          };
+
+          sessionStorage.setItem(
+            "sdt_demographics",
+            JSON.stringify(demographicData),
+          );
+
+          demographics.classList.add("hidden");
+          intro.classList.remove("hidden");
+        });
 
         q("chooseFa").onclick = () => chooseLanguage("fa");
         q("chooseEn").onclick = () => chooseLanguage("en");
@@ -897,6 +1043,12 @@
         q("csv1").onclick = () => {
           const rows = [
             [
+              "participant_id",
+              "age",
+              "gender",
+              "education",
+              "handedness",
+              "language",
               "mode",
               "block",
               "trial",
@@ -913,6 +1065,12 @@
             .filter((x) => x.block !== "Practice")
             .forEach((x) => {
               rows.push([
+                demographicData?.participant_id ?? "",
+                demographicData?.age ?? "",
+                demographicData?.gender ?? "",
+                demographicData?.education ?? "",
+                demographicData?.handedness ?? "",
+                demographicData?.language ?? currentLanguage,
                 x.mode,
                 x.block,
                 x.trial,
@@ -932,6 +1090,13 @@
           const { a, b, dc, ddp, dH, dF, sc } = summary;
 
           dl("SDT_summary.csv", [
+            ["participant_id", demographicData?.participant_id ?? ""],
+            ["age", demographicData?.age ?? ""],
+            ["gender", demographicData?.gender ?? ""],
+            ["education", demographicData?.education ?? ""],
+            ["handedness", demographicData?.handedness ?? ""],
+            ["language", demographicData?.language ?? currentLanguage],
+            [],
             [
               "mode",
               "block",
