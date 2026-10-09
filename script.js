@@ -231,6 +231,29 @@
           return document.getElementById(id);
         }
 
+        const supabaseConfig = window.SDT_SUPABASE_CONFIG || {};
+        const supabaseConfigured =
+          typeof supabaseConfig.url === "string" &&
+          supabaseConfig.url.startsWith("https://") &&
+          typeof supabaseConfig.publishableKey === "string" &&
+          supabaseConfig.publishableKey.startsWith("sb_publishable_") &&
+          window.supabase &&
+          typeof window.supabase.createClient === "function";
+
+        const supabaseClient = supabaseConfigured
+          ? window.supabase.createClient(
+              supabaseConfig.url,
+              supabaseConfig.publishableKey,
+              {
+                auth: {
+                  persistSession: false,
+                  autoRefreshToken: false,
+                  detectSessionInUrl: false,
+                },
+              },
+            )
+          : null;
+
         function shuffled(items) {
           const a = [...items];
           for (let i = a.length - 1; i > 0; i--) {
@@ -299,6 +322,8 @@
         let t0 = 0;
         let summary = null;
         let demographicData = null;
+        let sessionStartedAt = null;
+        let currentUploadDone = false;
 
         const demographics = q("demographics");
         const demographicsForm = q("demographicsForm");
@@ -386,6 +411,8 @@
           i = 0;
           data = [];
           summary = null;
+          sessionStartedAt = new Date().toISOString();
+          currentUploadDone = false;
 
           practice = buildPractice(mode);
           normal = buildMainBlock("Normal", mode);
@@ -1009,6 +1036,79 @@
             tab(t.normalTable, a) + tab(t.rewardTable, b);
         }
 
+        function metricPayload(metric) {
+          return {
+            hit: metric.h,
+            miss: metric.m,
+            false_alarm: metric.fa,
+            correct_rejection: metric.cr,
+            hit_rate: metric.H,
+            fa_rate: metric.F,
+            d_prime: metric.dp,
+            criterion_c: metric.c,
+            avg_rt_ms: metric.avgRt,
+            boundary_correction: metric.corr,
+          };
+        }
+
+        function buildSupabasePayload() {
+          if (!demographicData || !summary) return null;
+
+          return {
+            participant_id: demographicData.participant_id,
+            demographics: {
+              age: demographicData.age,
+              gender: demographicData.gender,
+              education: demographicData.education,
+              handedness: demographicData.handedness,
+              language: demographicData.language ?? currentLanguage,
+              recorded_at: demographicData.created_at ?? null,
+            },
+            experiment: {
+              mode: experimentMode,
+              started_at: sessionStartedAt,
+              completed_at: new Date().toISOString(),
+              normal: metricPayload(summary.a),
+              reward: metricPayload(summary.b),
+              delta_c: summary.dc,
+              delta_d_prime: summary.ddp,
+              delta_hit_rate: summary.dH,
+              delta_fa_rate: summary.dF,
+              reward_score: summary.sc,
+            },
+            trials: data
+              .filter((x) => x.block !== "Practice")
+              .map((x) => ({
+                block: x.block,
+                trial: x.trial,
+                shape: x.shape,
+                signal_present: Boolean(x.signal),
+                response_yes: Boolean(x.response),
+                outcome: x.outcome,
+                rt_ms: x.rt,
+                score_delta: x.score,
+              })),
+          };
+        }
+
+        async function submitExperimentToSupabase() {
+          if (!supabaseClient || currentUploadDone) return;
+
+          const payload = buildSupabasePayload();
+          if (!payload) return;
+
+          const { error } = await supabaseClient.rpc("submit_experiment", {
+            p_payload: payload,
+          });
+
+          if (error) {
+            console.error("Supabase upload failed:", error);
+            return;
+          }
+
+          currentUploadDone = true;
+        }
+
         function show() {
           const a = met("Normal");
           const b = met("Reward");
@@ -1023,6 +1123,7 @@
           summary = { a, b, dc, ddp, dH, dF, sc };
           renderResults(summary);
           res.classList.remove("hidden");
+          void submitExperimentToSupabase();
         }
 
         function esc(value) {
