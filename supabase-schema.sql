@@ -65,6 +65,39 @@ create table if not exists public.experiment_trials (
   primary key (session_id, block, trial)
 );
 
+-- Keep these named constraints outside CREATE TABLE so rerunning this file also
+-- hardens databases where the tables already exist.
+alter table public.experiment_sessions
+  drop constraint if exists experiment_sessions_participant_id_nonempty;
+alter table public.experiment_sessions
+  add constraint experiment_sessions_participant_id_nonempty
+  check (char_length(btrim(participant_id)) between 1 and 128);
+
+alter table public.experiment_trials
+  drop constraint if exists experiment_trials_outcome_consistent;
+alter table public.experiment_trials
+  add constraint experiment_trials_outcome_consistent
+  check (
+    outcome = case
+      when signal_present and response_yes then 'Hit'
+      when signal_present and not response_yes then 'Miss'
+      when not signal_present and response_yes then 'False Alarm'
+      else 'Correct Rejection'
+    end
+  );
+
+alter table public.experiment_trials
+  drop constraint if exists experiment_trials_score_consistent;
+alter table public.experiment_trials
+  add constraint experiment_trials_score_consistent
+  check (
+    score_delta = case
+      when block = 'Reward' and outcome = 'Hit' then 1
+      when block = 'Reward' and outcome = 'False Alarm' then -1
+      else 0
+    end
+  );
+
 alter table public.experiment_sessions enable row level security;
 alter table public.experiment_trials enable row level security;
 
@@ -80,13 +113,44 @@ as $$
 declare
   v_session_id uuid := gen_random_uuid();
   v_trial jsonb;
+  v_mode text := p_payload #>> '{experiment,mode}';
+  v_expected_trials integer;
+  v_expected_trials_per_block integer;
+  v_normal_trials integer;
+  v_reward_trials integer;
 begin
   if p_payload is null
-     or jsonb_typeof(p_payload) <> 'object'
-     or jsonb_typeof(p_payload -> 'demographics') <> 'object'
-     or jsonb_typeof(p_payload -> 'experiment') <> 'object'
-     or jsonb_typeof(p_payload -> 'trials') <> 'array' then
+     or jsonb_typeof(p_payload) is distinct from 'object'
+     or jsonb_typeof(p_payload -> 'demographics') is distinct from 'object'
+     or jsonb_typeof(p_payload -> 'experiment') is distinct from 'object'
+     or jsonb_typeof(p_payload -> 'trials') is distinct from 'array'
+     or nullif(btrim(p_payload ->> 'participant_id'), '') is null then
     raise exception 'Invalid experiment payload';
+  end if;
+
+  if v_mode = 'standard' then
+    v_expected_trials := 20;
+    v_expected_trials_per_block := 10;
+  elsif v_mode = 'advanced' then
+    v_expected_trials := 30;
+    v_expected_trials_per_block := 15;
+  else
+    raise exception 'Invalid experiment mode';
+  end if;
+
+  if jsonb_array_length(p_payload -> 'trials') <> v_expected_trials then
+    raise exception 'Invalid trial count for mode %', v_mode;
+  end if;
+
+  select
+    count(*) filter (where value ->> 'block' = 'Normal'),
+    count(*) filter (where value ->> 'block' = 'Reward')
+  into v_normal_trials, v_reward_trials
+  from jsonb_array_elements(p_payload -> 'trials');
+
+  if v_normal_trials <> v_expected_trials_per_block
+     or v_reward_trials <> v_expected_trials_per_block then
+    raise exception 'Invalid block trial counts';
   end if;
 
   insert into public.experiment_sessions (
@@ -179,6 +243,11 @@ begin
     select value
     from jsonb_array_elements(p_payload -> 'trials')
   loop
+    if (v_trial ->> 'trial')::integer not between 1 and v_expected_trials_per_block
+       or (v_mode = 'standard' and v_trial ->> 'shape' is distinct from 'circle') then
+      raise exception 'Invalid trial payload';
+    end if;
+
     insert into public.experiment_trials (
       session_id,
       block,

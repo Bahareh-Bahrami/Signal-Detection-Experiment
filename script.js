@@ -484,7 +484,7 @@
     demographicError.classList.add("hidden");
     demographicError.textContent = "";
 
-    if (!Number.isFinite(age) || age < 1 || age > 120) {
+    if (!Number.isInteger(age) || age < 1 || age > 120) {
       demographicError.textContent = t.ageInvalid;
       demographicError.classList.remove("hidden");
       q("age").focus();
